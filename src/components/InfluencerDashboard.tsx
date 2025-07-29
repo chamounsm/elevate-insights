@@ -6,6 +6,29 @@ import { Search, TrendingUp, Users, DollarSign } from 'lucide-react';
 import { InfluencerCard } from './InfluencerCard';
 import { InfluencerDetail } from './InfluencerDetail';
 
+export interface PostData {
+  id: string;
+  campaign: string;
+  postDate: string;
+  contentType: string;
+  platform: string;
+  impressions: number;
+  reach: number;
+  engagements: number;
+  likes: number;
+  comments: number;
+  shares: number;
+  saves: number;
+  clicks: number;
+  conversions: number;
+  revenue: number;
+  cpm: number;
+  cpe: number;
+  cpa: number;
+  roas: number;
+  engagementRate: number;
+}
+
 export interface InfluencerData {
   id: string;
   handle: string;
@@ -30,6 +53,7 @@ export interface InfluencerData {
   roas?: number;
   cpa?: number;
   recentGrowth?: number;
+  posts: PostData[];
 }
 
 // Mock data for demonstration
@@ -56,7 +80,31 @@ const mockInfluencers: InfluencerData[] = [
     engagementRate: 4.99,
     roas: 0.32,
     cpa: 133.33,
-    recentGrowth: 15.2
+    recentGrowth: 15.2,
+    posts: [
+      {
+        id: 'p1',
+        campaign: 'Chewpanions',
+        postDate: '2025-02-22',
+        contentType: 'IG REEL',
+        platform: 'INSTAGRAM',
+        impressions: 2200000,
+        reach: 1303407,
+        engagements: 109749,
+        likes: 104000,
+        comments: 783,
+        shares: 1970,
+        saves: 2996,
+        clicks: 0,
+        conversions: 75,
+        revenue: 3219,
+        cpm: 5.0,
+        cpe: 0.09,
+        cpa: 133.33,
+        roas: 0.32,
+        engagementRate: 4.99
+      }
+    ]
   },
   {
     id: '2',
@@ -80,7 +128,31 @@ const mockInfluencers: InfluencerData[] = [
     engagementRate: 6.2,
     roas: 0.49,
     cpa: 95.45,
-    recentGrowth: 22.8
+    recentGrowth: 22.8,
+    posts: [
+      {
+        id: 'p2',
+        campaign: 'Summer Campaign',
+        postDate: '2025-02-15',
+        contentType: 'TIKTOK VIDEO',
+        platform: 'TIKTOK',
+        impressions: 1800000,
+        reach: 950000,
+        engagements: 95000,
+        likes: 89000,
+        comments: 3200,
+        shares: 1800,
+        saves: 1000,
+        clicks: 450,
+        conversions: 44,
+        revenue: 4200,
+        cpm: 4.7,
+        cpe: 0.18,
+        cpa: 95.45,
+        roas: 0.49,
+        engagementRate: 6.2
+      }
+    ]
   },
   {
     id: '3',
@@ -104,7 +176,53 @@ const mockInfluencers: InfluencerData[] = [
     engagementRate: 7.8,
     roas: 0.92,
     cpa: 76.92,
-    recentGrowth: 8.5
+    recentGrowth: 8.5,
+    posts: [
+      {
+        id: 'p3',
+        campaign: 'Chewpanions',
+        postDate: '2025-02-10',
+        contentType: 'IG STORY',
+        platform: 'INSTAGRAM',
+        impressions: 800000,
+        reach: 450000,
+        engagements: 52000,
+        likes: 48000,
+        comments: 2100,
+        shares: 890,
+        saves: 1010,
+        clicks: 320,
+        conversions: 71,
+        revenue: 5500,
+        cpm: 7.5,
+        cpe: 0.15,
+        cpa: 76.92,
+        roas: 0.92,
+        engagementRate: 7.8
+      },
+      {
+        id: 'p4',
+        campaign: 'Holiday Promo',
+        postDate: '2025-01-28',
+        contentType: 'IG REEL',
+        platform: 'INSTAGRAM',
+        impressions: 400000,
+        reach: 230000,
+        engagements: 26000,
+        likes: 24500,
+        comments: 890,
+        shares: 410,
+        saves: 200,
+        clicks: 180,
+        conversions: 15,
+        revenue: 900,
+        cpm: 6.0,
+        cpe: 0.12,
+        cpa: 60.0,
+        roas: 1.15,
+        engagementRate: 6.5
+      }
+    ]
   }
 ];
 

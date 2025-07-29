@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Instagram, TrendingUp, Users, DollarSign, Eye, Heart, MessageCircle, Share, Target } from 'lucide-react';
 import { InfluencerData } from './InfluencerDashboard';
+import { PostPerformance } from './PostPerformance';
 
 interface InfluencerDetailProps {
   influencer: InfluencerData;
@@ -236,6 +237,9 @@ export const InfluencerDetail = ({ influencer, onBack }: InfluencerDetailProps) 
             </div>
           </CardContent>
         </Card>
+
+        {/* Post Performance Section */}
+        <PostPerformance posts={influencer.posts} />
       </div>
     </div>
   );
