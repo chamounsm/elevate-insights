@@ -31,6 +31,41 @@ export const InfluencerDetail = ({ influencer, onBack }: InfluencerDetailProps) 
           </Button>
         </div>
 
+        {/* Influencer Header */}
+        <Card className="border-0 shadow-sm bg-gradient-to-r from-card via-card to-secondary/10">
+          <CardHeader>
+            <div className="flex items-center justify-between">
+              <div className="space-y-2">
+                <div className="flex items-center space-x-3">
+                  <h1 className="text-3xl font-bold text-foreground">{influencer.handle}</h1>
+                  <Badge className="bg-dashboard-primary text-white">
+                    Rank #{influencer.rank}
+                  </Badge>
+                </div>
+                <div className="flex items-center space-x-4 text-muted-foreground">
+                  <span className="text-lg">{influencer.petParentName}</span>
+                  <span>•</span>
+                  <span>Pet: {influencer.petName}</span>
+                  <span>•</span>
+                  <span>{influencer.city}, {influencer.state}</span>
+                </div>
+                <div className="flex items-center space-x-2">
+                  <Badge variant="secondary">{influencer.tier}</Badge>
+                  <Badge variant="outline">{influencer.partnerType}</Badge>
+                  <Badge variant="outline">{influencer.category}</Badge>
+                  <Badge variant="outline">{influencer.platform}</Badge>
+                </div>
+              </div>
+              <div className="text-right">
+                <div className="text-3xl font-bold text-dashboard-primary">
+                  {formatNumber(influencer.followerCount)}
+                </div>
+                <div className="text-muted-foreground">Followers</div>
+              </div>
+            </div>
+          </CardHeader>
+        </Card>
+
         {/* Top-of-Page Dashboard Layout - 3 Quick-Glance Sections */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* 🧑‍💼 Influencer Snapshot */}
