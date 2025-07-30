@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Button } from '@/components/ui/button';
-import { Search, ArrowUpDown, ArrowUp, ArrowDown } from 'lucide-react';
+import { Search, ArrowUpDown, ArrowUp, ArrowDown, RotateCcw } from 'lucide-react';
 
 export interface FilterSortState {
   searchTerm: string;
@@ -24,6 +24,17 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
     onFilterSortChange({ ...filterSort, ...updates });
   };
 
+  const resetFilters = () => {
+    onFilterSortChange({
+      searchTerm: '',
+      tierFilter: 'all',
+      partnerTypeFilter: 'all',
+      platformFilter: 'all',
+      sortBy: 'rank',
+      sortOrder: 'asc'
+    });
+  };
+
   const toggleSort = (field: string) => {
     if (filterSort.sortBy === field) {
       updateState({ sortOrder: filterSort.sortOrder === 'asc' ? 'desc' : 'asc' });
@@ -39,7 +50,13 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+      <div className="flex justify-between items-center">
+        <h2 className="text-xl font-semibold text-foreground">{title}</h2>
+        <Button variant="outline" size="sm" onClick={resetFilters}>
+          <RotateCcw className="h-4 w-4 mr-2" />
+          Reset
+        </Button>
+      </div>
       
       {/* Search */}
       <div className="relative">

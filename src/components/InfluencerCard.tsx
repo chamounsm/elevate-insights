@@ -50,53 +50,53 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
       onClick={onClick}
     >
       <CardContent className="p-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center space-x-4">
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+          <div className="flex items-center space-x-4 min-w-0 flex-1">
             {/* Rank Badge */}
-            <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium ${getRankColor(influencer.rankType)}`}>
+            <div className={`flex items-center space-x-1 px-3 py-1 rounded-full text-xs font-medium flex-shrink-0 ${getRankColor(influencer.rankType)}`}>
               {getRankIcon(influencer.rankType)}
               <span>#{influencer.rank}</span>
             </div>
 
             {/* Influencer Info */}
-            <div className="space-y-1">
-              <div className="flex items-center space-x-2">
-                <h3 className="font-semibold text-foreground text-lg">{influencer.handle}</h3>
-                <Badge variant="outline" className="text-xs">
+            <div className="space-y-1 min-w-0 flex-1">
+              <div className="flex items-center space-x-2 flex-wrap">
+                <h3 className="font-semibold text-foreground text-lg truncate">{influencer.handle}</h3>
+                <Badge variant="outline" className="text-xs flex-shrink-0">
                   {influencer.platform}
                 </Badge>
               </div>
-              <div className="flex items-center space-x-4 text-sm text-muted-foreground">
-                <span>{influencer.petParentName}</span>
-                <span>•</span>
-                <span>Pet: {influencer.petName}</span>
-                <span>•</span>
-                <div className="flex items-center space-x-1">
+              <div className="flex items-center space-x-2 text-sm text-muted-foreground flex-wrap">
+                <span className="truncate">{influencer.petParentName}</span>
+                <span className="hidden sm:inline">•</span>
+                <span className="truncate">Pet: {influencer.petName}</span>
+                <span className="hidden md:inline">•</span>
+                <div className="flex items-center space-x-1 flex-shrink-0">
                   <MapPin className="h-3 w-3" />
-                  <span>{influencer.city}, {influencer.state}</span>
+                  <span className="truncate">{influencer.city}, {influencer.state}</span>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Stats */}
-          <div className="flex items-center space-x-6 text-sm">
+          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 lg:gap-6 text-sm flex-shrink-0">
             <div className="text-center">
               <div className="font-semibold text-foreground">{formatFollowerCount(influencer.followerCount)}</div>
-              <div className="text-muted-foreground">Followers</div>
+              <div className="text-muted-foreground text-xs">Followers</div>
             </div>
             <div className="text-center">
               <div className="font-semibold text-dashboard-primary">{influencer.engagementRate?.toFixed(1)}%</div>
-              <div className="text-muted-foreground">Engagement</div>
+              <div className="text-muted-foreground text-xs">Engagement</div>
             </div>
             <div className="text-center">
               <div className="font-semibold text-dashboard-success">${influencer.rate.toLocaleString()}</div>
-              <div className="text-muted-foreground">Rate</div>
+              <div className="text-muted-foreground text-xs">Rate</div>
             </div>
             {influencer.recentGrowth && (
               <div className="text-center">
                 <div className="font-semibold text-dashboard-warning">+{influencer.recentGrowth}%</div>
-                <div className="text-muted-foreground">Growth</div>
+                <div className="text-muted-foreground text-xs">Growth</div>
               </div>
             )}
           </div>
