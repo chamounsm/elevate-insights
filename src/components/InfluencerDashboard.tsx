@@ -1,10 +1,9 @@
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Input } from '@/components/ui/input';
-import { Badge } from '@/components/ui/badge';
-import { Search, TrendingUp, Users, DollarSign } from 'lucide-react';
-import { InfluencerCard } from './InfluencerCard';
+import { TrendingUp, Users, DollarSign } from 'lucide-react';
 import { InfluencerDetail } from './InfluencerDetail';
+import { InfluencerListControls, FilterSortState } from './InfluencerListControls';
+import { InfluencerList } from './InfluencerList';
 
 export interface PostData {
   id: string;
@@ -227,15 +226,25 @@ const mockInfluencers: InfluencerData[] = [
 ];
 
 export const InfluencerDashboard = () => {
-  const [searchTerm, setSearchTerm] = useState('');
   const [selectedInfluencer, setSelectedInfluencer] = useState<InfluencerData | null>(null);
+  
+  const [leftListFilter, setLeftListFilter] = useState<FilterSortState>({
+    searchTerm: '',
+    tierFilter: 'all',
+    partnerTypeFilter: 'all',
+    platformFilter: 'all',
+    sortBy: 'rank',
+    sortOrder: 'asc'
+  });
 
-  const filteredInfluencers = mockInfluencers.filter(
-    influencer =>
-      influencer.handle.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      influencer.petParentName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      influencer.petName.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  const [rightListFilter, setRightListFilter] = useState<FilterSortState>({
+    searchTerm: '',
+    tierFilter: 'all',
+    partnerTypeFilter: 'all',
+    platformFilter: 'all',
+    sortBy: 'rank',
+    sortOrder: 'asc'
+  });
 
   const totalInfluencers = mockInfluencers.length;
   const totalFollowers = mockInfluencers.reduce((sum, inf) => sum + inf.followerCount, 0);
@@ -255,19 +264,10 @@ export const InfluencerDashboard = () => {
     <div className="min-h-screen bg-background p-6">
       <div className="max-w-7xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-          <div>
+        <div className="flex flex-col justify-center items-center gap-4">
+          <div className="text-center">
             <h1 className="text-3xl font-bold text-foreground">Influencer Dashboard</h1>
             <p className="text-muted-foreground">Manage and track your influencer partnerships</p>
-          </div>
-          <div className="relative w-full md:w-80">
-            <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground h-4 w-4" />
-            <Input
-              placeholder="Search influencers..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="pl-10"
-            />
           </div>
         </div>
 
@@ -318,23 +318,44 @@ export const InfluencerDashboard = () => {
           </Card>
         </div>
 
-        {/* Influencer List */}
-        <Card className="border-0 shadow-sm">
-          <CardHeader>
-            <CardTitle className="text-xl font-semibold text-foreground">Top Ranked Influencers</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-4">
-              {filteredInfluencers.map((influencer) => (
-                <InfluencerCard
-                  key={influencer.id}
-                  influencer={influencer}
-                  onClick={() => setSelectedInfluencer(influencer)}
-                />
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Dual Influencer Lists */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          {/* Left List */}
+          <Card className="border-0 shadow-sm">
+            <CardHeader>
+              <InfluencerListControls
+                title="Influencer List A"
+                filterSort={leftListFilter}
+                onFilterSortChange={setLeftListFilter}
+              />
+            </CardHeader>
+            <CardContent>
+              <InfluencerList
+                influencers={mockInfluencers}
+                filterSort={leftListFilter}
+                onInfluencerClick={setSelectedInfluencer}
+              />
+            </CardContent>
+          </Card>
+
+          {/* Right List */}
+          <Card className="border-0 shadow-sm">
+            <CardHeader>
+              <InfluencerListControls
+                title="Influencer List B"
+                filterSort={rightListFilter}
+                onFilterSortChange={setRightListFilter}
+              />
+            </CardHeader>
+            <CardContent>
+              <InfluencerList
+                influencers={mockInfluencers}
+                filterSort={rightListFilter}
+                onInfluencerClick={setSelectedInfluencer}
+              />
+            </CardContent>
+          </Card>
+        </div>
       </div>
     </div>
   );
