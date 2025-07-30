@@ -4,12 +4,10 @@ import { Badge } from '@/components/ui/badge';
 import { ArrowLeft, Instagram, TrendingUp, Users, DollarSign, Eye, Heart, MessageCircle, Share, Target } from 'lucide-react';
 import { InfluencerData } from './InfluencerDashboard';
 import { PostPerformance } from './PostPerformance';
-
 interface InfluencerDetailProps {
   influencer: InfluencerData;
   onBack: () => void;
 }
-
 const formatNumber = (num: number) => {
   if (num >= 1000000) {
     return `${(num / 1000000).toFixed(1)}M`;
@@ -18,10 +16,11 @@ const formatNumber = (num: number) => {
   }
   return num.toLocaleString();
 };
-
-export const InfluencerDetail = ({ influencer, onBack }: InfluencerDetailProps) => {
-  return (
-    <div className="min-h-screen bg-background p-6">
+export const InfluencerDetail = ({
+  influencer,
+  onBack
+}: InfluencerDetailProps) => {
+  return <div className="min-h-screen bg-background p-6">
       <div className="max-w-6xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center space-x-4">
@@ -57,10 +56,10 @@ export const InfluencerDetail = ({ influencer, onBack }: InfluencerDetailProps) 
                 </div>
               </div>
               <div className="text-right">
-                <div className="text-3xl font-bold text-dashboard-primary">
+                <div className="text-3xl font-bold text-dashboard-primary mx-[65px]">
                   {formatNumber(influencer.followerCount)}
                 </div>
-                <div className="text-muted-foreground">Followers</div>
+                <div className="text-muted-foreground mx-[66px]">Followers</div>
               </div>
             </div>
           </CardHeader>
@@ -115,6 +114,5 @@ export const InfluencerDetail = ({ influencer, onBack }: InfluencerDetailProps) 
         {/* Post Performance Section */}
         <PostPerformance posts={influencer.posts} />
       </div>
-    </div>
-  );
+    </div>;
 };
