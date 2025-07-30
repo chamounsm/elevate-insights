@@ -285,6 +285,29 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
                   </Card>
                 </div>
 
+                {/* Engagement Rate Line Chart */}
+                <Card className="border border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-sm">Engagement Rate Over Time</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="h-48">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <LineChart data={filteredPosts.map(post => ({
+                          date: new Date(post.postDate).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+                          engagementRate: post.engagementRate
+                        }))}>
+                          <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                          <XAxis dataKey="date" />
+                          <YAxis />
+                          <Tooltip formatter={(value) => [`${value}%`, 'Engagement Rate']} />
+                          <Line type="monotone" dataKey="engagementRate" stroke="hsl(var(--dashboard-success))" strokeWidth={2} />
+                        </LineChart>
+                      </ResponsiveContainer>
+                    </div>
+                  </CardContent>
+                </Card>
+
                 {/* Engagement Ratios */}
                 <Card className="border border-border/50">
                   <CardHeader>
