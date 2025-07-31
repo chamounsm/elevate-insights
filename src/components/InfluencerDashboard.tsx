@@ -6,6 +6,7 @@ import { InfluencerDetail } from './InfluencerDetail';
 import { InfluencerListControls, FilterSortState } from './InfluencerListControls';
 import { InfluencerList } from './InfluencerList';
 import { ChatBot } from './ChatBot';
+import { getRealInfluencerData } from '@/utils/dataTransformation';
 
 export interface PostData {
   id: string;
