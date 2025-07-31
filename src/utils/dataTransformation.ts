@@ -43,7 +43,7 @@ const transformCampaignToPost = (campaign: any): PostData => {
     clicks: parseNumericValue(campaign["TOTAL CLICKS "]),
     revenue: parseNumericValue(campaign["TOTAL REVENUE"]),
     conversions: parseNumericValue(campaign["TOTAL CONVERSIONS"]),
-    roas: parseNumericValue(campaign["ROAS\n($) "]),
+    roas: parseNumericValue(campaign["ROAS ($)"]),
     cpm: parseNumericValue(campaign["CPM"]),
     cpe: parseNumericValue(campaign["CPE "]),
     cpa: parseNumericValue(campaign["CPA"]),
