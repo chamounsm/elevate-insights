@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PostData } from './InfluencerDashboard';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ScatterChart, Scatter } from 'recharts';
-import { Calendar, DollarSign, Eye, TrendingUp, Users, Heart, BarChart3, PieChart as PieChartIcon, Activity, Palette, Target } from 'lucide-react';
+import { Calendar, DollarSign, Eye, TrendingUp, Users, Heart, BarChart3, PieChart as PieChartIcon, Activity, Palette, Target, Volume2, Camera, Brain, Music, Mic, Video, Zap, Star } from 'lucide-react';
 
 interface PostPerformanceProps {
   posts: PostData[];
@@ -90,6 +90,59 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
     { attribute: 'Saturation', value: 80 },
     { attribute: 'Quality', value: 85 },
     { attribute: 'Composition', value: 70 },
+  ];
+
+  // Audio & Prosody Data
+  const audioData = [
+    { name: 'Calm', value: 40, fill: 'hsl(var(--dashboard-primary))' },
+    { name: 'Energetic', value: 30, fill: 'hsl(var(--dashboard-secondary))' },
+    { name: 'Professional', value: 20, fill: 'hsl(var(--dashboard-success))' },
+    { name: 'Playful', value: 10, fill: 'hsl(var(--dashboard-warning))' },
+  ];
+
+  const musicTempoData = [
+    { tempo: 'Very Slow', count: 25 },
+    { tempo: 'Slow', count: 35 },
+    { tempo: 'Medium', count: 30 },
+    { tempo: 'Fast', count: 10 },
+  ];
+
+  // Visual Content Analysis
+  const visualContentData = [
+    { metric: 'Animal Screen Time', percentage: 85 },
+    { metric: 'Human Screen Time', percentage: 15 },
+    { metric: 'Close-up Hooks', percentage: 70 },
+    { metric: 'Action/Movement', percentage: 60 },
+  ];
+
+  const sceneTypeData = [
+    { name: 'Home', value: 45, fill: 'hsl(var(--dashboard-primary))' },
+    { name: 'Outdoor', value: 30, fill: 'hsl(var(--dashboard-secondary))' },
+    { name: 'Studio', value: 15, fill: 'hsl(var(--dashboard-success))' },
+    { name: 'Travel', value: 10, fill: 'hsl(var(--dashboard-warning))' },
+  ];
+
+  // Emotion & Engagement Data
+  const emotionData = [
+    { emotion: 'Comfort', value: 35 },
+    { emotion: 'Amusement', value: 28 },
+    { emotion: 'Joy', value: 22 },
+    { emotion: 'Excitement', value: 15 },
+  ];
+
+  const arousalData = [
+    { level: 'Low', count: 40 },
+    { level: 'Medium', count: 35 },
+    { level: 'High', count: 25 },
+  ];
+
+  // Content Quality Scores
+  const qualityScores = [
+    { metric: 'Hook Effectiveness', score: 4.2, maxScore: 5 },
+    { metric: 'Narrative Clarity', score: 4.0, maxScore: 5 },
+    { metric: 'Emotional Resonance', score: 4.1, maxScore: 5 },
+    { metric: 'Production Quality', score: 4.0, maxScore: 5 },
+    { metric: 'Brand Fit', score: 4.0, maxScore: 5 },
   ];
 
   const COLORS = ['hsl(var(--dashboard-primary))', 'hsl(var(--dashboard-secondary))', 'hsl(var(--dashboard-success))', 'hsl(var(--dashboard-warning))'];
