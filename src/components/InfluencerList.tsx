@@ -23,8 +23,9 @@ export const InfluencerList = ({ influencers, filterSort, onInfluencerClick }: I
       // Partner type filter
       const partnerMatch = filterSort.partnerTypeFilter === 'all' || influencer.partnerType === filterSort.partnerTypeFilter;
 
-      // Platform filter
-      const platformMatch = filterSort.platformFilter === 'all' || influencer.platform === filterSort.platformFilter;
+      // Platform filter (case insensitive)
+      const platformMatch = filterSort.platformFilter === 'all' || 
+                           influencer.platform?.toLowerCase() === filterSort.platformFilter.toLowerCase();
 
       return searchMatch && tierMatch && partnerMatch && platformMatch;
     })
@@ -35,8 +36,8 @@ export const InfluencerList = ({ influencers, filterSort, onInfluencerClick }: I
 
       switch (sortBy) {
         case 'followerCount':
-          aValue = a.followerCount;
-          bValue = b.followerCount;
+          aValue = a.followerCount || 0;
+          bValue = b.followerCount || 0;
           break;
         case 'engagementRate':
           aValue = a.engagementRate || 0;
@@ -51,13 +52,18 @@ export const InfluencerList = ({ influencers, filterSort, onInfluencerClick }: I
           bValue = b.roas || 0;
           break;
         case 'recentGrowth':
-          aValue = a.recentGrowth || 0;
-          bValue = b.recentGrowth || 0;
+          // Use predictive growth if available, fallback to recentGrowth
+          aValue = a.viewsGrowthPotential ?? a.recentGrowth ?? 0;
+          bValue = b.viewsGrowthPotential ?? b.recentGrowth ?? 0;
           break;
         default:
-          aValue = a.rank;
-          bValue = b.rank;
+          aValue = a.rank || 0;
+          bValue = b.rank || 0;
       }
+
+      // Handle null/undefined values consistently
+      if (aValue === null || aValue === undefined) aValue = 0;
+      if (bValue === null || bValue === undefined) bValue = 0;
 
       if (sortOrder === 'asc') {
         return aValue - bValue;

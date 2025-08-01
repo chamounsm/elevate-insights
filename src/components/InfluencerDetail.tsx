@@ -118,7 +118,7 @@ export const InfluencerDetail = ({
         </div>
 
         {/* Post Performance Section */}
-        <PostPerformance posts={influencer.posts} />
+        <PostPerformance posts={influencer.posts} influencerId={influencer.id} />
       </div>
     </div>;
 };

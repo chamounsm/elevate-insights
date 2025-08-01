@@ -2,6 +2,7 @@
 const influencerFiles = import.meta.glob('@/data/influencers/*.json', { eager: true });
 const campaignFiles = import.meta.glob('@/data/campaigns/*.json', { eager: true });
 const financialFiles = import.meta.glob('@/data/financial/*.json', { eager: true });
+const predictionFiles = import.meta.glob('@/data/predictions/*.json', { eager: true });
 
 export interface RawCampaignData {
   [key: string]: any;
@@ -73,4 +74,43 @@ export function getFinancialData(influencerId: string): any {
   const filename = `@/data/financial/${cleanId}_financial.json`;
   const module = financialFiles[filename] as any;
   return module?.default || {};
+}
+
+// Prediction data interface
+export interface PredictionData {
+  influencer: string;
+  current_engagement_rate: string;
+  er_lgbm_prediction: string;
+  er_rf_prediction: string;
+  er_direction_agreement: string;
+  er_lgbm_percentile: string;
+  er_rf_percentile: string;
+  current_views: string;
+  views_lgbm_prediction: string;
+  views_rf_prediction: string;
+  views_direction_agreement: string;
+  views_lgbm_percentile: string;
+  views_rf_percentile: string;
+}
+
+// Load all prediction data
+export function loadPredictionData(): PredictionData[] {
+  const allData: PredictionData[] = [];
+  
+  Object.entries(predictionFiles).forEach(([path, module]) => {
+    if (path.includes('predictive_rankings.json')) {
+      const jsonData = (module as any).default || module;
+      if (Array.isArray(jsonData)) {
+        allData.push(...jsonData);
+      }
+    }
+  });
+  
+  return allData;
+}
+
+// Get prediction data for specific influencer
+export function getPredictionData(influencerHandle: string): PredictionData | null {
+  const predictions = loadPredictionData();
+  return predictions.find(p => p.influencer.toLowerCase() === influencerHandle.toLowerCase()) || null;
 }

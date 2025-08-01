@@ -99,9 +99,14 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
                 <div className="font-semibold text-dashboard-success">${influencer.rate.toLocaleString()}</div>
                 <div className="text-muted-foreground text-xs">Rate</div>
               </div>
-              {influencer.recentGrowth && (
+              {(influencer.viewsGrowthPotential !== undefined || influencer.recentGrowth !== undefined) && (
                 <div className="text-center">
-                  <div className="font-semibold text-dashboard-warning">+{influencer.recentGrowth}%</div>
+                  <div className="font-semibold text-dashboard-warning">
+                    {influencer.viewsGrowthPotential !== undefined ? 
+                      `${influencer.viewsGrowthPotential >= 0 ? '+' : ''}${influencer.viewsGrowthPotential.toFixed(2)}%` :
+                      `+${influencer.recentGrowth?.toFixed(2)}%`
+                    }
+                  </div>
                   <div className="text-muted-foreground text-xs">Growth</div>
                 </div>
               )}

@@ -61,6 +61,13 @@ export interface InfluencerData {
   cpv?: number;
   aov?: number;
   posts: PostData[];
+  // Predictive metrics
+  predictedEngagementRate?: number;
+  predictedViews?: number;
+  engagementGrowthPotential?: number;
+  viewsGrowthPotential?: number;
+  predictionConfidence?: 'high' | 'medium' | 'low';
+  growthPercentile?: number;
 }
 
 // Real data is now loaded from JSON files via getRealInfluencerData()

@@ -1,5 +1,5 @@
 import { InfluencerData, PostData } from '@/components/InfluencerDashboard';
-import { loadAllCampaignData, loadAllInfluencerData, loadAllFinancialData } from './loadInfluencerData';
+import { loadAllCampaignData, loadAllInfluencerData, loadAllFinancialData, loadPredictionData, PredictionData } from './loadInfluencerData';
 
 // Utility function to parse numeric values from strings
 const parseNumericValue = (value: string | number | null): number => {
@@ -208,11 +208,70 @@ const normalizeHandle = (handle: string): string => {
 };
 
 // Transform campaign data to InfluencerData format
+// Helper function to calculate growth potential score
+const calculateGrowthPotential = (prediction: PredictionData): {
+  engagementGrowth: number;
+  viewsGrowth: number;
+  confidence: 'high' | 'medium' | 'low';
+  percentile: number;
+} => {
+  const currentER = parseFloat(prediction.current_engagement_rate);
+  const predictedER = (parseFloat(prediction.er_lgbm_prediction) + parseFloat(prediction.er_rf_prediction)) / 2;
+  let engagementGrowth = ((predictedER - currentER) / currentER) * 100;
+  
+  const currentViews = parseFloat(prediction.current_views);
+  const predictedViews = (parseFloat(prediction.views_lgbm_prediction) + parseFloat(prediction.views_rf_prediction)) / 2;
+  let viewsGrowth = ((predictedViews - currentViews) / currentViews) * 100;
+  
+  // Apply logarithmic scaling for extreme growth values to preserve relative rankings
+  // while showing more reasonable numbers
+  const scaleGrowth = (growth: number): number => {
+    if (growth > 100) {
+      // Logarithmic scaling for values above 100%
+      // This maps 100% -> 100%, 1000% -> ~150%, 5000% -> ~180%
+      return 100 + (Math.log10(growth / 100) * 50);
+    } else if (growth < -50) {
+      // Similar scaling for large declines
+      return Math.max(-75, -50 - (Math.log10(Math.abs(growth) / 50) * 25));
+    }
+    return growth;
+  };
+  
+  engagementGrowth = scaleGrowth(engagementGrowth);
+  viewsGrowth = scaleGrowth(viewsGrowth);
+  
+  // Calculate confidence based on model agreement
+  const confidence = (prediction.er_direction_agreement === 'True' && prediction.views_direction_agreement === 'True') ? 'high' :
+                    (prediction.er_direction_agreement === 'True' || prediction.views_direction_agreement === 'True') ? 'medium' : 'low';
+  
+  // Calculate percentile score (higher percentiles indicate better growth potential)
+  const percentileScore = (percentile: string): number => {
+    if (percentile.includes('90-100')) return 95;
+    if (percentile.includes('75-90')) return 82.5;
+    if (percentile.includes('50-75')) return 62.5;
+    if (percentile.includes('25-50')) return 37.5;
+    return 12.5;
+  };
+  
+  const avgPercentile = (percentileScore(prediction.er_lgbm_percentile) + 
+                        percentileScore(prediction.er_rf_percentile) +
+                        percentileScore(prediction.views_lgbm_percentile) +
+                        percentileScore(prediction.views_rf_percentile)) / 4;
+  
+  return {
+    engagementGrowth,
+    viewsGrowth,
+    confidence,
+    percentile: avgPercentile
+  };
+};
+
 export const transformDataToInfluencers = (): InfluencerData[] => {
   const influencerMap = new Map<string, InfluencerData>();
   const postAnalyticsMap = aggregatePostAnalyticsByInfluencer();
   const campaignData = loadAllCampaignData();
   const financialData = loadAllFinancialData();
+  const predictionData = loadPredictionData();
   
   // Group campaigns by influencer handle
   const campaignsByInfluencer = new Map<string, any[]>();
@@ -338,9 +397,47 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     // Note: For existing influencers, financial metrics are already set from the previous section
   });
   
-  return Array.from(influencerMap.values()).map((influencer, index) => ({
+  // Add prediction data to each influencer
+  const influencersWithPredictions = Array.from(influencerMap.values()).map((influencer) => {
+    // Find matching prediction data
+    const prediction = predictionData.find(p => 
+      p.influencer.toLowerCase() === influencer.handle.toLowerCase() ||
+      p.influencer.toLowerCase() === influencer.id.toLowerCase()
+    );
+    
+    if (prediction) {
+      const growth = calculateGrowthPotential(prediction);
+      const predictedER = (parseFloat(prediction.er_lgbm_prediction) + parseFloat(prediction.er_rf_prediction)) / 2;
+      const predictedViews = (parseFloat(prediction.views_lgbm_prediction) + parseFloat(prediction.views_rf_prediction)) / 2;
+      
+      return {
+        ...influencer,
+        predictedEngagementRate: predictedER * 100, // Convert to percentage
+        predictedViews: predictedViews,
+        engagementGrowthPotential: growth.engagementGrowth,
+        viewsGrowthPotential: growth.viewsGrowth,
+        predictionConfidence: growth.confidence,
+        growthPercentile: growth.percentile
+      };
+    }
+    
+    return influencer;
+  });
+  
+  // Sort by growth potential (combining views and engagement growth)
+  influencersWithPredictions.sort((a, b) => {
+    const scoreA = (a.viewsGrowthPotential || 0) + (a.engagementGrowthPotential || 0) + (a.growthPercentile || 0);
+    const scoreB = (b.viewsGrowthPotential || 0) + (b.engagementGrowthPotential || 0) + (b.growthPercentile || 0);
+    return scoreB - scoreA;
+  });
+  
+  // Assign ranks based on growth potential
+  return influencersWithPredictions.map((influencer, index) => ({
     ...influencer,
-    rank: index + 1
+    rank: index + 1,
+    rankType: index < 3 ? 'highest-potential' : 
+              index < 10 ? 'fastest-growing' : 
+              'top-performer'
   }));
 };
 

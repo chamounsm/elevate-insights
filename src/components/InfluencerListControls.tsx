@@ -101,9 +101,9 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Platforms</SelectItem>
-            <SelectItem value="INSTAGRAM">Instagram</SelectItem>
-            <SelectItem value="TIKTOK">TikTok</SelectItem>
-            <SelectItem value="YOUTUBE">YouTube</SelectItem>
+            <SelectItem value="instagram">Instagram</SelectItem>
+            <SelectItem value="tiktok">TikTok</SelectItem>
+            <SelectItem value="youtube">YouTube</SelectItem>
           </SelectContent>
         </Select>
       </div>
