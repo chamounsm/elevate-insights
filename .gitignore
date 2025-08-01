@@ -22,3 +22,6 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+
+src\data\campaignData.json
+src\data\postAnalyticsData.json

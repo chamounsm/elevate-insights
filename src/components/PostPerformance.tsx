@@ -888,6 +888,7 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
                   <TableHead>Date</TableHead>
                   <TableHead>Campaign</TableHead>
                   <TableHead>Content Type</TableHead>
+                  <TableHead>Rate</TableHead>
                   <TableHead>Impressions</TableHead>
                   <TableHead>Engagements</TableHead>
                   <TableHead>ER%</TableHead>
@@ -908,6 +909,9 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
                     </TableCell>
                     <TableCell>
                       <Badge variant="secondary">{post.contentType}</Badge>
+                    </TableCell>
+                    <TableCell className="font-semibold">
+                      {post.rate ? `$${post.rate.toLocaleString()}` : '-'}
                     </TableCell>
                     <TableCell>{formatNumber(post.impressions)}</TableCell>
                     <TableCell>{formatNumber(post.engagements)}</TableCell>

@@ -29,6 +29,7 @@ export interface PostData {
   cpa: number;
   roas: number;
   engagementRate: number;
+  rate?: number;
 }
 
 export interface InfluencerData {
