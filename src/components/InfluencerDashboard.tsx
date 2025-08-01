@@ -56,6 +56,10 @@ export interface InfluencerData {
   roas?: number;
   cpa?: number;
   recentGrowth?: number;
+  avgViews?: number;
+  cpe?: number;
+  cpv?: number;
+  aov?: number;
   posts: PostData[];
 }
 

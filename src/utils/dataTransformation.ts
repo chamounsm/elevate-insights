@@ -1,5 +1,5 @@
 import { InfluencerData, PostData } from '@/components/InfluencerDashboard';
-import { loadAllCampaignData, loadAllInfluencerData } from './loadInfluencerData';
+import { loadAllCampaignData, loadAllInfluencerData, loadAllFinancialData } from './loadInfluencerData';
 
 // Utility function to parse numeric values from strings
 const parseNumericValue = (value: string | number | null): number => {
@@ -110,6 +110,73 @@ const calculateInfluencerImpressions = (posts: any[]): number => {
   }, 0);
 };
 
+// Calculate average views from influencer data
+const calculateAvgViews = (posts: any[]): number => {
+  if (posts.length === 0) return 0;
+  
+  const totalViews = posts.reduce((sum, post) => {
+    return sum + parseNumericValue(post["Platform & post metadata_views"]);
+  }, 0);
+  
+  return totalViews / posts.length;
+};
+
+// Calculate CPE (Cost Per Engagement) from influencer data
+const calculateCPE = (posts: any[], totalRate: number): number => {
+  if (posts.length === 0 || totalRate === 0) return 0;
+  
+  const totalEngagements = posts.reduce((sum, post) => {
+    const likes = parseNumericValue(post["Platform & post metadata_likes"]);
+    const comments = parseNumericValue(post["Platform & post metadata_comments"]);
+    const shares = parseNumericValue(post["Platform & post metadata_shares"]);
+    return sum + likes + comments + shares;
+  }, 0);
+  
+  return totalEngagements > 0 ? totalRate / totalEngagements : 0;
+};
+
+// Calculate CPV (Cost Per View) from influencer data
+const calculateCPV = (posts: any[], totalRate: number): number => {
+  if (posts.length === 0 || totalRate === 0) return 0;
+  
+  const totalViews = posts.reduce((sum, post) => {
+    return sum + parseNumericValue(post["Platform & post metadata_views"]);
+  }, 0);
+  
+  // Convert to cost per 1000 views to get meaningful numbers
+  return totalViews > 0 ? (totalRate / totalViews) * 1000 : 0;
+};
+
+// Calculate AOV and ROAS from campaign data
+const calculateCampaignMetrics = (campaigns: any[]): { avgAOV: number; avgROAS: number } => {
+  if (campaigns.length === 0) return { avgAOV: 0, avgROAS: 0 };
+  
+  let totalAOV = 0;
+  let totalROAS = 0;
+  let aovCount = 0;
+  let roasCount = 0;
+  
+  campaigns.forEach(campaign => {
+    const aov = parseNumericValue(campaign["AOV "]);
+    const roas = parseNumericValue(campaign["ROAS ($)"]);
+    
+    if (aov > 0) {
+      totalAOV += aov;
+      aovCount++;
+    }
+    
+    if (roas > 0) {
+      totalROAS += roas;
+      roasCount++;
+    }
+  });
+  
+  return {
+    avgAOV: aovCount > 0 ? totalAOV / aovCount : 0,
+    avgROAS: roasCount > 0 ? totalROAS / roasCount : 0
+  };
+};
+
 // Aggregate post analytics by influencer
 const aggregatePostAnalyticsByInfluencer = () => {
   const influencerMap = new Map<string, any[]>();
@@ -145,55 +212,74 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
   const influencerMap = new Map<string, InfluencerData>();
   const postAnalyticsMap = aggregatePostAnalyticsByInfluencer();
   const campaignData = loadAllCampaignData();
+  const financialData = loadAllFinancialData();
   
-  // Process campaign data
+  // Group campaigns by influencer handle
+  const campaignsByInfluencer = new Map<string, any[]>();
   campaignData.forEach(campaign => {
     const handle = campaign["HANDLE"] || '';
     const cleanHandle = normalizeHandle(handle);
     
-    if (!influencerMap.has(cleanHandle)) {
-      const tier = campaign["TIER"] || '';
-      let rankType: 'fastest-growing' | 'highest-potential' | 'top-performer' = 'top-performer';
-      if (tier.includes('250K+')) rankType = 'top-performer';
-      else if (parsePercentage(campaign["ER"]) > 5) rankType = 'highest-potential';
-      else rankType = 'fastest-growing';
-      
-      const baseInfluencer: InfluencerData = {
-        id: cleanHandle,
-        handle: cleanHandle,
-        petParentName: cleanHandle === 'wickens.wicked.reptiles' ? 'Adam Wickens' : (campaign["PET PARENT NAME"] || ''),
-        petName: campaign["PET NAME"] || '',
-        followerCount: parseNumericValue(campaign["FOLLOWER COUNT"]),
-        tier: tier.replace('TIER 1: ', '').replace('TIER 2: ', '').replace('TIER 3: ', ''),
-        category: campaign["CATEGORY"] || '',
-        partnerType: campaign["PARTNER TYPE"] || '',
-        city: campaign["CITY"] || '',
-        state: campaign["STATE"] || '',
-        platform: campaign["PLATFORM"]?.toLowerCase() || 'instagram',
-        engagementRate: 0, // Will be calculated from influencer data
-        rate: 0, // Will be sum of all post rates
-        rank: Math.floor(Math.random() * 100) + 1,
-        rankType,
-        recentGrowth: Math.random() * 20 + 5, // Mock growth data
-        totalRevenue: 0,
-        contentImpressions: 0, // Will be calculated from influencer data
-        roas: 0,
-        posts: [] // This will contain only campaign posts
-      };
-      
-      influencerMap.set(cleanHandle, baseInfluencer);
+    if (!campaignsByInfluencer.has(cleanHandle)) {
+      campaignsByInfluencer.set(cleanHandle, []);
     }
+    campaignsByInfluencer.get(cleanHandle)!.push(campaign);
+  });
+  
+  // Process campaign data
+  campaignsByInfluencer.forEach((campaigns, cleanHandle) => {
+    const firstCampaign = campaigns[0];
+    const tier = firstCampaign["TIER"] || '';
+    let rankType: 'fastest-growing' | 'highest-potential' | 'top-performer' = 'top-performer';
+    if (tier.includes('250K+')) rankType = 'top-performer';
+    else if (parsePercentage(firstCampaign["ER"]) > 5) rankType = 'highest-potential';
+    else rankType = 'fastest-growing';
     
-    const influencer = influencerMap.get(cleanHandle)!;
-    const post = transformCampaignToPost(campaign);
-    influencer.posts.push(post);
+    // Get precomputed financial data for this influencer
+    const cleanIdForFinancial = cleanHandle.replace(/[/\\:*?"<>|@\s]/g, '_').replace(/_+/g, '_');
+    const financialMetrics = financialData[cleanIdForFinancial] || financialData[cleanHandle] || {};
     
-    // Update aggregated metrics from campaign data
-    influencer.rate += parseNumericValue(campaign["RATE"]); // Sum of all post rates
-    influencer.totalRevenue = (influencer.totalRevenue || 0) + post.revenue;
-    if (post.revenue > 0 && post.impressions > 0) {
-      influencer.roas = (influencer.totalRevenue || 0) / (post.impressions / 1000 * 10); // Rough ROAS calculation
-    }
+    const baseInfluencer: InfluencerData = {
+      id: cleanHandle,
+      handle: cleanHandle,
+      petParentName: cleanHandle === 'wickens.wicked.reptiles' ? 'Adam Wickens' : (firstCampaign["PET PARENT NAME"] || ''),
+      petName: firstCampaign["PET NAME"] || '',
+      followerCount: parseNumericValue(firstCampaign["FOLLOWER COUNT"]),
+      tier: tier.replace('TIER 1: ', '').replace('TIER 2: ', '').replace('TIER 3: ', ''),
+      category: firstCampaign["CATEGORY"] || '',
+      partnerType: firstCampaign["PARTNER TYPE"] || '',
+      city: firstCampaign["CITY"] || '',
+      state: firstCampaign["STATE"] || '',
+      platform: firstCampaign["PLATFORM"]?.toLowerCase() || 'instagram',
+      engagementRate: 0, // Will be set from financial data
+      rate: financialMetrics.totalRate || 0,
+      rank: Math.floor(Math.random() * 100) + 1,
+      rankType,
+      recentGrowth: Math.random() * 20 + 5, // Mock growth data
+      totalRevenue: 0,
+      contentImpressions: 0, // Will be set from financial data
+      roas: financialMetrics.avgROAS || 0,
+      aov: financialMetrics.avgAOV || 0,
+      avgViews: financialMetrics.avgViews || 0,
+      cpe: financialMetrics.avgCPE || 0,
+      cpv: financialMetrics.avgCPV || 0,
+      posts: [] // This will contain only campaign posts
+    };
+    
+    // Process all campaigns for this influencer
+    campaigns.forEach(campaign => {
+      const post = transformCampaignToPost(campaign);
+      baseInfluencer.posts.push(post);
+      
+      // Update aggregated metrics from campaign data
+      baseInfluencer.totalRevenue = (baseInfluencer.totalRevenue || 0) + post.revenue;
+    });
+    
+    // Set engagement rate and content impressions from financial data
+    baseInfluencer.engagementRate = financialMetrics.engagementRate || 0;
+    baseInfluencer.contentImpressions = financialMetrics.totalViews || 0;
+    
+    influencerMap.set(cleanHandle, baseInfluencer);
   });
   
   // Update engagement rate and impressions from post analytics data
@@ -216,6 +302,10 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     }
     
     if (!matchingInfluencer) {
+      // Get financial data for this influencer
+      const cleanIdForFinancial = influencerId.replace(/[/\\:*?"<>|@\s]/g, '_').replace(/_+/g, '_');
+      const financialMetrics = financialData[cleanIdForFinancial] || financialData[influencerId] || {};
+      
       // Create new influencer from post analytics data
       matchingInfluencer = {
         id: influencerId,
@@ -229,22 +319,23 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
         city: 'Unknown',
         state: 'Unknown',
         platform: 'tiktok',
-        engagementRate: calculateInfluencerEngagementRate(posts),
-        rate: 0, // No campaign data, so no rate
+        engagementRate: financialMetrics.engagementRate || 0,
+        rate: financialMetrics.totalRate || 0,
         rank: Math.floor(Math.random() * 100) + 1,
         rankType: 'fastest-growing' as const,
         recentGrowth: Math.random() * 30 + 10,
         totalRevenue: 0,
-        contentImpressions: calculateInfluencerImpressions(posts),
-        roas: 0,
+        contentImpressions: financialMetrics.totalViews || 0,
+        roas: financialMetrics.avgROAS || 0,
+        avgViews: financialMetrics.avgViews || 0,
+        cpe: financialMetrics.avgCPE || 0,
+        cpv: financialMetrics.avgCPV || 0,
+        aov: financialMetrics.avgAOV || 0,
         posts: [] // No campaign posts for these influencers
       };
       influencerMap.set(influencerId, matchingInfluencer);
-    } else {
-      // Update existing influencer's engagement rate and impressions from influencer data
-      matchingInfluencer.engagementRate = calculateInfluencerEngagementRate(posts);
-      matchingInfluencer.contentImpressions = calculateInfluencerImpressions(posts);
     }
+    // Note: For existing influencers, financial metrics are already set from the previous section
   });
   
   return Array.from(influencerMap.values()).map((influencer, index) => ({

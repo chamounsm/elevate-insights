@@ -75,37 +75,43 @@ export const InfluencerDetail = ({
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg border border-border/50">
               <div className="text-lg font-bold text-foreground">
-                {influencer.contentImpressions ? formatNumber(influencer.contentImpressions) : '6,200'}
+                {influencer.avgViews ? formatNumber(influencer.avgViews) : '0'}
               </div>
               <div className="text-sm text-muted-foreground">Avg Views</div>
             </div>
             
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-secondary/5 rounded-lg border border-border/50">
               <div className="text-lg font-bold text-dashboard-primary">
-                {influencer.engagementRate ? `${influencer.engagementRate.toFixed(1)}%` : '14.7%'}
+                {influencer.engagementRate ? `${influencer.engagementRate.toFixed(1)}%` : '0%'}
               </div>
               <div className="text-sm text-muted-foreground">Engagement Rate</div>
             </div>
             
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg border border-border/50">
               <div className="text-lg font-bold text-dashboard-success">
-                ${influencer.roas ? influencer.roas.toFixed(2) : '133.33'}
+                ${influencer.roas ? influencer.roas.toFixed(2) : '0.00'}
               </div>
               <div className="text-sm text-muted-foreground">ROAS</div>
             </div>
             
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-warning/5 rounded-lg border border-border/50">
-              <div className="text-lg font-bold text-foreground">$0.09</div>
+              <div className="text-lg font-bold text-foreground">
+                ${influencer.cpe ? influencer.cpe.toFixed(3) : '0.000'}
+              </div>
               <div className="text-sm text-muted-foreground">CPE</div>
             </div>
             
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-info/5 rounded-lg border border-border/50">
-              <div className="text-lg font-bold text-foreground">$0.01</div>
+              <div className="text-lg font-bold text-foreground">
+                ${influencer.cpv ? influencer.cpv.toFixed(4) : '0.0000'}
+              </div>
               <div className="text-sm text-muted-foreground">CPV</div>
             </div>
             
             <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-accent/5 rounded-lg border border-border/50">
-              <div className="text-lg font-bold text-foreground">$0.32</div>
+              <div className="text-lg font-bold text-foreground">
+                ${influencer.aov ? influencer.aov.toFixed(2) : '0.00'}
+              </div>
               <div className="text-sm text-muted-foreground">AOV</div>
             </div>
           </div>
