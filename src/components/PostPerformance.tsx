@@ -6,7 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { PostData } from './InfluencerDashboard';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, LineChart, Line, PieChart, Pie, Cell, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, Radar, ScatterChart, Scatter } from 'recharts';
-import { Calendar, DollarSign, Eye, TrendingUp, Users, Heart, BarChart3, PieChart as PieChartIcon, Activity, Palette } from 'lucide-react';
+import { Calendar, DollarSign, Eye, TrendingUp, Users, Heart, BarChart3, PieChart as PieChartIcon, Activity, Palette, Target } from 'lucide-react';
 
 interface PostPerformanceProps {
   posts: PostData[];
@@ -116,7 +116,7 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
       </div>
 
       {/* Performance Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
         <Card className="border-0 shadow-sm bg-gradient-to-br from-card to-dashboard-primary/5">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-muted-foreground">Total Impressions</CardTitle>
@@ -160,6 +160,17 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
             <p className="text-xs text-dashboard-success">Avg CPA: {formatCurrency(avgMetrics.cpa)}</p>
           </CardContent>
         </Card>
+
+        <Card className="border-0 shadow-sm bg-gradient-to-br from-card to-dashboard-info/5">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-muted-foreground">Avg CPM</CardTitle>
+            <Target className="h-4 w-4 text-dashboard-info" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-foreground">{formatCurrency(avgMetrics.cpm)}</div>
+            <p className="text-xs text-dashboard-success">Cost per thousand impressions</p>
+          </CardContent>
+        </Card>
       </div>
 
       {/* Performance Chart */}
@@ -188,36 +199,6 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
                 <Bar dataKey="engagements" fill="hsl(var(--dashboard-secondary))" name="Engagements" />
               </BarChart>
             </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Cost Breakdown */}
-      <Card className="border-0 shadow-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <DollarSign className="h-5 w-5 text-dashboard-success" />
-            <span>Cost & Performance Breakdown</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-            <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg">
-              <div className="text-lg font-bold text-foreground">{formatCurrency(avgMetrics.cpm)}</div>
-              <div className="text-sm text-muted-foreground">Avg CPM</div>
-            </div>
-            <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-secondary/5 rounded-lg">
-              <div className="text-lg font-bold text-foreground">{formatCurrency(avgMetrics.cpe)}</div>
-              <div className="text-sm text-muted-foreground">Avg CPE</div>
-            </div>
-            <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-warning/5 rounded-lg">
-              <div className="text-lg font-bold text-foreground">{formatCurrency(avgMetrics.cpa)}</div>
-              <div className="text-sm text-muted-foreground">Avg CPA</div>
-            </div>
-            <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg">
-              <div className="text-lg font-bold text-foreground">{avgMetrics.roas.toFixed(2)}x</div>
-              <div className="text-sm text-muted-foreground">Avg ROAS</div>
-            </div>
           </div>
         </CardContent>
       </Card>
