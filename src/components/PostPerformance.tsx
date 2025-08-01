@@ -558,6 +558,316 @@ export const PostPerformance = ({ posts }: PostPerformanceProps) => {
                 </div>
               </AccordionContent>
             </AccordionItem>
+
+            {/* Audio & Prosody Analysis Section */}
+            <AccordionItem value="audio-prosody">
+              <AccordionTrigger className="flex items-center space-x-2">
+                <Volume2 className="h-4 w-4 text-dashboard-primary" />
+                <span>🎵 Audio & Prosody Analysis</span>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Audio Tone Distribution */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Audio Tone Distribution</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={audioData}
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={60}
+                              dataKey="value"
+                              label={({ name, value }) => `${name}: ${value}%`}
+                            >
+                              {audioData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Music Tempo Analysis */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Music Tempo Distribution</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={musicTempoData}>
+                            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                            <XAxis dataKey="tempo" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="count" fill="hsl(var(--dashboard-secondary))" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Audio Characteristics */}
+                <Card className="border border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-sm">Audio Characteristics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg">
+                        <Music className="h-6 w-6 mx-auto mb-2 text-dashboard-primary" />
+                        <div className="text-lg font-bold text-foreground">85%</div>
+                        <div className="text-sm text-muted-foreground">With Music</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-secondary/5 rounded-lg">
+                        <Mic className="h-6 w-6 mx-auto mb-2 text-dashboard-secondary" />
+                        <div className="text-lg font-bold text-foreground">1.2</div>
+                        <div className="text-sm text-muted-foreground">Avg Speakers</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg">
+                        <Volume2 className="h-6 w-6 mx-auto mb-2 text-dashboard-success" />
+                        <div className="text-lg font-bold text-foreground">Normal</div>
+                        <div className="text-sm text-muted-foreground">Speech Rate</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-warning/5 rounded-lg">
+                        <Zap className="h-6 w-6 mx-auto mb-2 text-dashboard-warning" />
+                        <div className="text-lg font-bold text-foreground">15%</div>
+                        <div className="text-sm text-muted-foreground">ASMR Content</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Visual Content Semantics Section */}
+            <AccordionItem value="visual-semantics">
+              <AccordionTrigger className="flex items-center space-x-2">
+                <Camera className="h-4 w-4 text-dashboard-secondary" />
+                <span>🎥 Visual Content Semantics</span>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Screen Time Analysis */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Screen Time Analysis</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={visualContentData}>
+                            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                            <XAxis dataKey="metric" />
+                            <YAxis />
+                            <Tooltip formatter={(value) => [`${value}%`, 'Percentage']} />
+                            <Bar dataKey="percentage" fill="hsl(var(--dashboard-primary))" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Scene Type Distribution */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Primary Scene Types</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <PieChart>
+                            <Pie
+                              data={sceneTypeData}
+                              cx="50%"
+                              cy="50%"
+                              outerRadius={60}
+                              dataKey="value"
+                              label={({ name, value }) => `${name}: ${value}%`}
+                            >
+                              {sceneTypeData.map((entry, index) => (
+                                <Cell key={`cell-${index}`} fill={entry.fill} />
+                              ))}
+                            </Pie>
+                            <Tooltip />
+                          </PieChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Visual Elements */}
+                <Card className="border border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-sm">Visual Elements & Hooks</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg">
+                        <Eye className="h-6 w-6 mx-auto mb-2 text-dashboard-primary" />
+                        <div className="text-lg font-bold text-foreground">70%</div>
+                        <div className="text-sm text-muted-foreground">Close-up Hooks</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-secondary/5 rounded-lg">
+                        <Activity className="h-6 w-6 mx-auto mb-2 text-dashboard-secondary" />
+                        <div className="text-lg font-bold text-foreground">60%</div>
+                        <div className="text-sm text-muted-foreground">Action/Movement</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg">
+                        <Users className="h-6 w-6 mx-auto mb-2 text-dashboard-success" />
+                        <div className="text-lg font-bold text-foreground">1.0</div>
+                        <div className="text-sm text-muted-foreground">Avg Pets/Video</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-warning/5 rounded-lg">
+                        <Video className="h-6 w-6 mx-auto mb-2 text-dashboard-warning" />
+                        <div className="text-lg font-bold text-foreground">8.5</div>
+                        <div className="text-sm text-muted-foreground">Avg Cuts/Video</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Emotion & Affect Analysis Section */}
+            <AccordionItem value="emotion-affect">
+              <AccordionTrigger className="flex items-center space-x-2">
+                <Brain className="h-4 w-4 text-dashboard-success" />
+                <span>🧠 Emotion & Affect Analysis</span>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {/* Emotional Response */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Top Viewer Emotions</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={emotionData}>
+                            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                            <XAxis dataKey="emotion" />
+                            <YAxis />
+                            <Tooltip formatter={(value) => [`${value}%`, 'Response Rate']} />
+                            <Bar dataKey="value" fill="hsl(var(--dashboard-success))" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+
+                  {/* Arousal Levels */}
+                  <Card className="border border-border/50">
+                    <CardHeader>
+                      <CardTitle className="text-sm">Emotional Arousal Levels</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="h-48">
+                        <ResponsiveContainer width="100%" height="100%">
+                          <BarChart data={arousalData}>
+                            <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
+                            <XAxis dataKey="level" />
+                            <YAxis />
+                            <Tooltip />
+                            <Bar dataKey="count" fill="hsl(var(--dashboard-warning))" />
+                          </BarChart>
+                        </ResponsiveContainer>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </div>
+
+                {/* Emotional Characteristics */}
+                <Card className="border border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-sm">Emotional Characteristics</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg">
+                        <Heart className="h-6 w-6 mx-auto mb-2 text-dashboard-success" />
+                        <div className="text-lg font-bold text-foreground">Positive</div>
+                        <div className="text-sm text-muted-foreground">Valence Level</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg">
+                        <Target className="h-6 w-6 mx-auto mb-2 text-dashboard-primary" />
+                        <div className="text-lg font-bold text-foreground">Pet Owners</div>
+                        <div className="text-sm text-muted-foreground">Target Audience</div>
+                      </div>
+                      <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-secondary/5 rounded-lg">
+                        <Brain className="h-6 w-6 mx-auto mb-2 text-dashboard-secondary" />
+                        <div className="text-lg font-bold text-foreground">Relatable</div>
+                        <div className="text-sm text-muted-foreground">Empathy Strategy</div>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </AccordionContent>
+            </AccordionItem>
+
+            {/* Content Quality Analysis Section */}
+            <AccordionItem value="quality-analysis">
+              <AccordionTrigger className="flex items-center space-x-2">
+                <Star className="h-4 w-4 text-dashboard-warning" />
+                <span>⭐ Content Quality Analysis</span>
+              </AccordionTrigger>
+              <AccordionContent className="space-y-6">
+                {/* Quality Scores */}
+                <Card className="border border-border/50">
+                  <CardHeader>
+                    <CardTitle className="text-sm">Quality Metrics (1-5 Scale)</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      {qualityScores.map((item, index) => (
+                        <div key={index} className="flex items-center justify-between">
+                          <span className="text-sm font-medium text-foreground">{item.metric}</span>
+                          <div className="flex items-center space-x-3">
+                            <div className="w-24 bg-muted rounded-full h-2">
+                              <div 
+                                className="bg-dashboard-primary h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${(item.score / item.maxScore) * 100}%` }}
+                              />
+                            </div>
+                            <span className="text-sm font-bold text-foreground min-w-[2rem]">{item.score}</span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Quality Breakdown */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/5 rounded-lg">
+                    <Star className="h-6 w-6 mx-auto mb-2 text-dashboard-success" />
+                    <div className="text-lg font-bold text-foreground">4.1</div>
+                    <div className="text-sm text-muted-foreground">Overall Quality</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-primary/5 rounded-lg">
+                    <Target className="h-6 w-6 mx-auto mb-2 text-dashboard-primary" />
+                    <div className="text-lg font-bold text-foreground">Strong</div>
+                    <div className="text-sm text-muted-foreground">Brand Fit</div>
+                  </div>
+                  <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-warning/5 rounded-lg">
+                    <TrendingUp className="h-6 w-6 mx-auto mb-2 text-dashboard-warning" />
+                    <div className="text-lg font-bold text-foreground">Good</div>
+                    <div className="text-sm text-muted-foreground">Hook Effectiveness</div>
+                  </div>
+                </div>
+              </AccordionContent>
+            </AccordionItem>
           </Accordion>
         </CardContent>
       </Card>
