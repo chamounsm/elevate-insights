@@ -25,3 +25,6 @@ dist-ssr
 
 src\data\campaignData.json
 src\data\postAnalyticsData.json
+
+# Large influencer data files
+src/data/influencers/*.json

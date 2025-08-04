@@ -201,35 +201,6 @@ export const PostPerformance = ({ posts, influencerId }: PostPerformanceProps) =
         </Card>
       </div>
 
-      {/* Performance Chart */}
-      <Card className="border-0 shadow-sm">
-        <CardHeader>
-          <CardTitle className="flex items-center space-x-2">
-            <BarChart className="h-5 w-5 text-dashboard-primary" />
-            <span>Performance Over Time</span>
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="h-80">
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={chartData}>
-                <CartesianGrid strokeDasharray="3 3" className="opacity-30" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip 
-                  contentStyle={{
-                    backgroundColor: 'hsl(var(--card))',
-                    border: '1px solid hsl(var(--border))',
-                    borderRadius: '6px'
-                  }}
-                />
-                <Bar dataKey="impressions" fill="hsl(var(--dashboard-primary))" name="Impressions (K)" />
-                <Bar dataKey="engagements" fill="hsl(var(--dashboard-secondary))" name="Engagements" />
-              </BarChart>
-            </ResponsiveContainer>
-          </div>
-        </CardContent>
-      </Card>
 
       {/* Advanced Analytics Sections */}
       <Card className="border-0 shadow-sm">

@@ -195,13 +195,26 @@ const aggregatePostAnalyticsByInfluencer = () => {
 
 // Function to normalize handle names for Adam Wickens consolidation
 const normalizeHandle = (handle: string): string => {
-  const cleanHandle = handle.replace('@', '');
+  // Remove @ symbols and trim spaces
+  let cleanHandle = handle.replace(/@/g, '').trim();
+  
+  // Handle cases with multiple handles separated by / or other characters
+  if (cleanHandle.includes('/')) {
+    // Take the first handle before the slash
+    cleanHandle = cleanHandle.split('/')[0].trim();
+  }
   
   // Consolidate all Adam Wickens variations to wickens.wicked.reptiles
   if (cleanHandle.toLowerCase().includes('adam') || 
       cleanHandle.toLowerCase() === 'adam_wickens' ||
       cleanHandle.toLowerCase() === 'adam wickens') {
     return 'wickens.wicked.reptiles';
+  }
+  
+  // Consolidate Mika.and.mocha/moka variations
+  if (cleanHandle.toLowerCase() === 'mika.and.mocha' || 
+      cleanHandle.toLowerCase() === 'mika.and.moka') {
+    return 'Mika.and.moka';
   }
   
   return cleanHandle;
@@ -351,6 +364,11 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     // Special handling for wickens.wicked.reptiles
     if (normalizedId === 'wickenswickedreptiles' || influencerId === 'wickens.wicked.reptiles') {
       matchingInfluencer = influencerMap.get('wickens.wicked.reptiles');
+    } 
+    // Special handling for Mika variations
+    else if (normalizedId === 'mikaandmocha' || normalizedId === 'mikaandmoka' || 
+             influencerId === 'Mika.and.moka' || influencerId === 'mika.and.mocha') {
+      matchingInfluencer = influencerMap.get('Mika.and.moka');
     } else {
       for (const [key, influencer] of influencerMap.entries()) {
         if (key.toLowerCase().includes(normalizedId) || normalizedId.includes(key.toLowerCase())) {
@@ -400,10 +418,24 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
   // Add prediction data to each influencer
   const influencersWithPredictions = Array.from(influencerMap.values()).map((influencer) => {
     // Find matching prediction data
-    const prediction = predictionData.find(p => 
-      p.influencer.toLowerCase() === influencer.handle.toLowerCase() ||
-      p.influencer.toLowerCase() === influencer.id.toLowerCase()
-    );
+    const prediction = predictionData.find(p => {
+      const predInfluencer = p.influencer.toLowerCase();
+      const infHandle = influencer.handle.toLowerCase();
+      const infId = influencer.id.toLowerCase();
+      
+      // Direct match
+      if (predInfluencer === infHandle || predInfluencer === infId) {
+        return true;
+      }
+      
+      // Try matching with periods replaced by underscores and vice versa
+      const predInfluencerNormalized = predInfluencer.replace(/[._]/g, '');
+      const infHandleNormalized = infHandle.replace(/[._]/g, '');
+      const infIdNormalized = infId.replace(/[._]/g, '');
+      
+      return predInfluencerNormalized === infHandleNormalized || 
+             predInfluencerNormalized === infIdNormalized;
+    });
     
     if (prediction) {
       const growth = calculateGrowthPotential(prediction);
@@ -417,7 +449,8 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
         engagementGrowthPotential: growth.engagementGrowth,
         viewsGrowthPotential: growth.viewsGrowth,
         predictionConfidence: growth.confidence,
-        growthPercentile: growth.percentile
+        growthPercentile: growth.percentile,
+        erLgbmPrediction: parseFloat(prediction.er_lgbm_prediction) * 100 // Convert to percentage
       };
     }
     

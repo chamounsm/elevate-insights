@@ -68,6 +68,7 @@ export interface InfluencerData {
   viewsGrowthPotential?: number;
   predictionConfidence?: 'high' | 'medium' | 'low';
   growthPercentile?: number;
+  erLgbmPrediction?: number;
 }
 
 // Real data is now loaded from JSON files via getRealInfluencerData()
@@ -90,8 +91,8 @@ export const InfluencerDashboard = () => {
     tierFilter: 'all',
     partnerTypeFilter: 'all',
     platformFilter: 'all',
-    sortBy: 'rank',
-    sortOrder: 'asc'
+    sortBy: 'erLgbmPrediction',
+    sortOrder: 'desc'
   });
 
   // Get real influencer data

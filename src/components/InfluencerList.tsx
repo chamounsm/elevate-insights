@@ -51,10 +51,9 @@ export const InfluencerList = ({ influencers, filterSort, onInfluencerClick }: I
           aValue = a.roas || 0;
           bValue = b.roas || 0;
           break;
-        case 'recentGrowth':
-          // Use predictive growth if available, fallback to recentGrowth
-          aValue = a.viewsGrowthPotential ?? a.recentGrowth ?? 0;
-          bValue = b.viewsGrowthPotential ?? b.recentGrowth ?? 0;
+        case 'erLgbmPrediction':
+          aValue = a.erLgbmPrediction || 0;
+          bValue = b.erLgbmPrediction || 0;
           break;
         default:
           aValue = a.rank || 0;

@@ -77,10 +77,11 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Tiers</SelectItem>
-            <SelectItem value="MEGA: 1MM+">MEGA: 1MM+</SelectItem>
-            <SelectItem value="MACRO: 500K-1MM">MACRO: 500K-1MM</SelectItem>
-            <SelectItem value="MID: 100K-500K">MID: 100K-500K</SelectItem>
-            <SelectItem value="MICRO: 10K-100K">MICRO: 10K-100K</SelectItem>
+            <SelectItem value="1MM+">MEGA: 1MM+</SelectItem>
+            <SelectItem value="250K+">250K+</SelectItem>
+            <SelectItem value="100K-250K">100K-250K</SelectItem>
+            <SelectItem value="10K-100K">10K-100K</SelectItem>
+            <SelectItem value="50K+">50K+</SelectItem>
           </SelectContent>
         </Select>
 
@@ -149,10 +150,10 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
         <Button
           variant="outline"
           size="sm"
-          onClick={() => toggleSort('recentGrowth')}
-          className={filterSort.sortBy === 'recentGrowth' ? 'bg-primary/10' : ''}
+          onClick={() => toggleSort('erLgbmPrediction')}
+          className={filterSort.sortBy === 'erLgbmPrediction' ? 'bg-primary/10' : ''}
         >
-          Growth {getSortIcon('recentGrowth')}
+          Predicted ER {getSortIcon('erLgbmPrediction')}
         </Button>
       </div>
     </div>

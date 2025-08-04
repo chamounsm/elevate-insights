@@ -99,15 +99,12 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
                 <div className="font-semibold text-dashboard-success">${influencer.rate.toLocaleString()}</div>
                 <div className="text-muted-foreground text-xs">Rate</div>
               </div>
-              {(influencer.viewsGrowthPotential !== undefined || influencer.recentGrowth !== undefined) && (
+              {influencer.erLgbmPrediction !== undefined && (
                 <div className="text-center">
                   <div className="font-semibold text-dashboard-warning">
-                    {influencer.viewsGrowthPotential !== undefined ? 
-                      `${influencer.viewsGrowthPotential >= 0 ? '+' : ''}${influencer.viewsGrowthPotential.toFixed(2)}%` :
-                      `+${influencer.recentGrowth?.toFixed(2)}%`
-                    }
+                    {influencer.erLgbmPrediction.toFixed(1)}%
                   </div>
-                  <div className="text-muted-foreground text-xs">Growth</div>
+                  <div className="text-muted-foreground text-xs">Predicted ER</div>
                 </div>
               )}
             </div>
