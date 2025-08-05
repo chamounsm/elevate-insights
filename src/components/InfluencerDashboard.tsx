@@ -46,7 +46,7 @@ export interface InfluencerData {
   state: string;
   platform: string;
   rank: number;
-  rankType: 'fastest-growing' | 'highest-potential' | 'top-performer';
+  rankType: 'trending-up' | 'trending-down';
   // Metrics
   contentImpressions?: number;
   accountsReached?: number;
@@ -69,6 +69,7 @@ export interface InfluencerData {
   predictionConfidence?: 'high' | 'medium' | 'low';
   growthPercentile?: number;
   erLgbmPrediction?: number;
+  erChangeAbsolute?: number;
 }
 
 // Real data is now loaded from JSON files via getRealInfluencerData()

@@ -21,6 +21,24 @@ const parsePercentage = (value: string | number | null): number => {
   return isNaN(num) ? 0 : num;
 };
 
+// Generate consistent follower count based on influencer handle
+const generateConsistentFollowerCount = (handle: string): number => {
+  // Create a simple hash from the handle
+  let hash = 0;
+  for (let i = 0; i < handle.length; i++) {
+    const char = handle.charCodeAt(i);
+    hash = ((hash << 5) - hash) + char;
+    hash = hash & hash; // Convert to 32-bit integer
+  }
+  
+  // Use absolute value and map to a range between 25K and 150K
+  const absHash = Math.abs(hash);
+  const followerCount = 25000 + (absHash % 125000); // Range: 25,000 - 149,999
+  
+  // Round to nearest 1000 for cleaner numbers
+  return Math.round(followerCount / 1000) * 1000;
+};
+
 // Transform campaign data to PostData format
 const transformCampaignToPost = (campaign: any): PostData => {
   const impressions = parseNumericValue(campaign["TOTAL IMPRESSIONS"]);
@@ -302,10 +320,6 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
   campaignsByInfluencer.forEach((campaigns, cleanHandle) => {
     const firstCampaign = campaigns[0];
     const tier = firstCampaign["TIER"] || '';
-    let rankType: 'fastest-growing' | 'highest-potential' | 'top-performer' = 'top-performer';
-    if (tier.includes('250K+')) rankType = 'top-performer';
-    else if (parsePercentage(firstCampaign["ER"]) > 5) rankType = 'highest-potential';
-    else rankType = 'fastest-growing';
     
     // Get precomputed financial data for this influencer
     const cleanIdForFinancial = cleanHandle.replace(/[/\\:*?"<>|@\s]/g, '_').replace(/_+/g, '_');
@@ -325,9 +339,9 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
       platform: firstCampaign["PLATFORM"]?.toLowerCase() || 'instagram',
       engagementRate: 0, // Will be set from financial data
       rate: financialMetrics.totalRate || 0,
-      rank: Math.floor(Math.random() * 100) + 1,
-      rankType,
-      recentGrowth: Math.random() * 20 + 5, // Mock growth data
+      rank: 1, // Will be calculated based on ER change
+      rankType: 'trending-up', // Will be determined by ER change
+      recentGrowth: 12, // Default growth data
       totalRevenue: 0,
       contentImpressions: 0, // Will be set from financial data
       roas: financialMetrics.avgROAS || 0,
@@ -389,7 +403,7 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
         handle: influencerId,
         petParentName: influencerId.replace(/[._]/g, ' ').replace(/\b\w/g, l => l.toUpperCase()),
         petName: 'Pet',
-        followerCount: Math.floor(Math.random() * 100000) + 50000, // Mock follower count
+        followerCount: generateConsistentFollowerCount(influencerId), // Consistent but varied follower count
         tier: '50K+',
         category: 'Pet Owner',
         partnerType: 'NEW',
@@ -398,9 +412,9 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
         platform: 'tiktok',
         engagementRate: financialMetrics.engagementRate || 0,
         rate: financialMetrics.totalRate || 0,
-        rank: Math.floor(Math.random() * 100) + 1,
-        rankType: 'fastest-growing' as const,
-        recentGrowth: Math.random() * 30 + 10,
+        rank: 1, // Will be calculated based on ER change
+        rankType: 'trending-up' as const,
+        recentGrowth: 15, // Default growth value
         totalRevenue: 0,
         contentImpressions: financialMetrics.totalViews || 0,
         roas: financialMetrics.avgROAS || 0,
@@ -415,7 +429,7 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     // Note: For existing influencers, financial metrics are already set from the previous section
   });
   
-  // Add prediction data to each influencer
+  // Add prediction data to each influencer and calculate ER change
   const influencersWithPredictions = Array.from(influencerMap.values()).map((influencer) => {
     // Find matching prediction data
     const prediction = predictionData.find(p => {
@@ -438,39 +452,65 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     });
     
     if (prediction) {
-      const growth = calculateGrowthPotential(prediction);
-      const predictedER = (parseFloat(prediction.er_lgbm_prediction) + parseFloat(prediction.er_rf_prediction)) / 2;
+      const currentER = parseFloat(prediction.current_engagement_rate) * 100;
+      const predictedER = ((parseFloat(prediction.er_lgbm_prediction) + parseFloat(prediction.er_rf_prediction)) / 2) * 100;
       const predictedViews = (parseFloat(prediction.views_lgbm_prediction) + parseFloat(prediction.views_rf_prediction)) / 2;
+      
+      // Calculate engagement rate change (absolute difference for ranking)
+      const erChange = predictedER - currentER;
+      const erChangePercent = currentER > 0 ? (erChange / currentER) * 100 : 0;
       
       return {
         ...influencer,
-        predictedEngagementRate: predictedER * 100, // Convert to percentage
+        engagementRate: currentER,
+        predictedEngagementRate: predictedER,
         predictedViews: predictedViews,
-        engagementGrowthPotential: growth.engagementGrowth,
-        viewsGrowthPotential: growth.viewsGrowth,
-        predictionConfidence: growth.confidence,
-        growthPercentile: growth.percentile,
-        erLgbmPrediction: parseFloat(prediction.er_lgbm_prediction) * 100 // Convert to percentage
+        engagementGrowthPotential: erChangePercent,
+        erLgbmPrediction: parseFloat(prediction.er_lgbm_prediction) * 100, // Convert to percentage
+        erChangeAbsolute: Math.abs(erChange), // For ranking purposes
+        rankType: erChange >= 0 ? 'trending-up' : 'trending-down' as 'trending-up' | 'trending-down'
       };
     }
     
-    return influencer;
+    return {
+      ...influencer,
+      erChangeAbsolute: 0, // No prediction data, no change
+      rankType: 'trending-up' as 'trending-up' | 'trending-down'
+    };
   });
   
-  // Sort by growth potential (combining views and engagement growth)
+  // Sort by positive changes first, then negative changes, then by magnitude within each group
   influencersWithPredictions.sort((a, b) => {
-    const scoreA = (a.viewsGrowthPotential || 0) + (a.engagementGrowthPotential || 0) + (a.growthPercentile || 0);
-    const scoreB = (b.viewsGrowthPotential || 0) + (b.engagementGrowthPotential || 0) + (b.growthPercentile || 0);
-    return scoreB - scoreA;
+    const changeA = a.erChangeAbsolute || 0;
+    const changeB = b.erChangeAbsolute || 0;
+    const typeA = a.rankType;
+    const typeB = b.rankType;
+    
+    // First priority: trending-up before trending-down
+    if (typeA === 'trending-up' && typeB === 'trending-down') {
+      return -1; // A comes before B
+    }
+    if (typeA === 'trending-down' && typeB === 'trending-up') {
+      return 1; // B comes before A
+    }
+    
+    // Second priority: within same trend type, sort by magnitude
+    if (typeA === 'trending-up' && typeB === 'trending-up') {
+      // For trending-up: highest positive change first
+      return changeB - changeA;
+    } else if (typeA === 'trending-down' && typeB === 'trending-down') {
+      // For trending-down: least negative change first (smallest absolute change)
+      return changeA - changeB;
+    }
+    
+    // Fallback (should not reach here given the logic above)
+    return changeB - changeA;
   });
   
-  // Assign ranks based on growth potential
+  // Assign ranks: positive changes first (highest first), then negative changes (least negative first)
   return influencersWithPredictions.map((influencer, index) => ({
     ...influencer,
-    rank: index + 1,
-    rankType: index < 3 ? 'highest-potential' : 
-              index < 10 ? 'fastest-growing' : 
-              'top-performer'
+    rank: index + 1
   }));
 };
 

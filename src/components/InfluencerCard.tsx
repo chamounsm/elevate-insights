@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, Users, MapPin, Instagram, Zap } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, MapPin, Instagram, Zap } from 'lucide-react';
 import { InfluencerData } from './InfluencerDashboard';
 
 interface InfluencerCardProps {
@@ -10,27 +10,23 @@ interface InfluencerCardProps {
 
 const getRankIcon = (rankType: string) => {
   switch (rankType) {
-    case 'fastest-growing':
+    case 'trending-up':
       return <TrendingUp className="h-4 w-4" />;
-    case 'highest-potential':
-      return <Zap className="h-4 w-4" />;
-    case 'top-performer':
-      return <Users className="h-4 w-4" />;
+    case 'trending-down':
+      return <TrendingDown className="h-4 w-4" />;
     default:
-      return <Users className="h-4 w-4" />;
+      return <TrendingUp className="h-4 w-4" />;
   }
 };
 
 const getRankColor = (rankType: string) => {
   switch (rankType) {
-    case 'fastest-growing':
-      return 'bg-dashboard-success text-white';
-    case 'highest-potential':
-      return 'bg-dashboard-warning text-white';
-    case 'top-performer':
-      return 'bg-dashboard-primary text-white';
+    case 'trending-up':
+      return 'bg-dashboard-success/20 text-dashboard-success border-dashboard-success/30';
+    case 'trending-down':
+      return 'bg-dashboard-destructive/20 text-dashboard-destructive border-dashboard-destructive/30';
     default:
-      return 'bg-muted text-muted-foreground';
+      return 'bg-dashboard-success/20 text-dashboard-success border-dashboard-success/30';
   }
 };
 
