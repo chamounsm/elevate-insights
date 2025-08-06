@@ -1,4 +1,4 @@
-const API_BASE_URL = 'http://localhost:3001'; // Update this to your actual API domain and port
+const API_BASE_URL = 'http://10.164.242.43:5000';
 
 export interface ChatbotQueryRequest {
   query: string;
@@ -17,6 +17,11 @@ export interface ChatbotQueryResponse {
 export const chatbotApi = {
   async sendQuery(request: ChatbotQueryRequest): Promise<ChatbotQueryResponse> {
     try {
+      console.log('📤 Sending query to chatbot API:', {
+        url: `${API_BASE_URL}/query`,
+        payload: request,
+      });
+
       const response = await fetch(`${API_BASE_URL}/query`, {
         method: 'POST',
         headers: {
@@ -30,12 +35,14 @@ export const chatbotApi = {
       }
 
       const data = await response.json();
+      console.log('✅ Received response from chatbot API:', data);
       return data;
     } catch (error) {
-      console.error('Error sending query to chatbot API:', error);
+      console.error('❌ Error sending query to chatbot API:', error);
       throw error;
     }
   },
+
 
   async checkHealth(): Promise<{ status: string; message: string }> {
     try {
