@@ -1167,41 +1167,68 @@ export const PostPerformance = ({ posts, influencerId }: PostPerformanceProps) =
                       </CardContent>
                     </Card>
 
-                    {/* Growth Potential & Confidence */}
+                    {/* Direction Accuracy Confidence */}
                     <Card className="border border-border/50">
                       <CardHeader>
-                        <CardTitle className="text-sm">Growth Analysis</CardTitle>
+                        <CardTitle className="text-sm">Direction Accuracy Confidence</CardTitle>
                       </CardHeader>
                       <CardContent>
                         <div className="space-y-4">
-                          {/* Growth Potential */}
-                          <div className="text-center p-4 bg-gradient-to-br from-card to-dashboard-success/10 rounded-lg">
-                            <TrendingUp className="h-8 w-8 mx-auto mb-2 text-dashboard-success" />
-                            <div className="text-sm font-medium text-muted-foreground">Growth Percentile</div>
-                            <div className="text-2xl font-bold text-foreground">{predictiveModelingData.growthPotential.percentile.toFixed(0)}th</div>
-                            <Badge variant="secondary" className="mt-2">{predictiveModelingData.growthPotential.category}</Badge>
+                          {/* Engagement Rate Accuracy */}
+                          <div className="p-4 bg-gradient-to-br from-card to-dashboard-primary/10 rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-muted-foreground">Engagement Rate</span>
+                              <Target className="h-4 w-4 text-dashboard-primary" />
+                            </div>
+                            <div className="text-2xl font-bold text-foreground">{predictiveModelingData.directionAccuracy.engagementRate.toFixed(1)}%</div>
+                            <div className="w-full bg-muted rounded-full h-2 mt-2 relative overflow-visible">
+                              <div 
+                                className="bg-dashboard-primary h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${predictiveModelingData.directionAccuracy.engagementRate}%` }}
+                              />
+                              {/* Black baseline indicator at 50% */}
+                              <div 
+                                className="absolute h-4 w-0.5 bg-black"
+                                style={{ left: '50%', top: '-4px', transform: 'translateX(-50%)' }}
+                              />
+                            </div>
+                            <div className="text-xs text-muted-foreground mt-2">Direction prediction accuracy</div>
                           </div>
                           
-                          {/* Prediction Confidence */}
-                          <div className="space-y-2">
-                            <div className="text-xs font-medium text-muted-foreground">Prediction Confidence</div>
-                            <div className={`text-center p-3 rounded-lg ${
-                              predictiveModelingData.confidence.level === 'high' ? 'bg-dashboard-success/10' :
-                              predictiveModelingData.confidence.level === 'medium' ? 'bg-dashboard-warning/10' :
-                              'bg-dashboard-danger/10'
-                            }`}>
-                              <div className="text-lg font-bold capitalize">{predictiveModelingData.confidence.level}</div>
+                          {/* Views Accuracy */}
+                          <div className="p-4 bg-gradient-to-br from-card to-dashboard-success/10 rounded-lg">
+                            <div className="flex items-center justify-between mb-2">
+                              <span className="text-sm font-medium text-muted-foreground">Views</span>
+                              <Eye className="h-4 w-4 text-dashboard-success" />
                             </div>
+                            <div className="text-2xl font-bold text-foreground">{predictiveModelingData.directionAccuracy.views.toFixed(1)}%</div>
+                            <div className="w-full bg-muted rounded-full h-2 mt-2 relative overflow-visible">
+                              <div 
+                                className="bg-dashboard-success h-2 rounded-full transition-all duration-300"
+                                style={{ width: `${predictiveModelingData.directionAccuracy.views}%` }}
+                              />
+                              {/* Black baseline indicator at 50% */}
+                              <div 
+                                className="absolute h-4 w-0.5 bg-black"
+                                style={{ left: '50%', top: '-4px', transform: 'translateX(-50%)' }}
+                              />
+                            </div>
+                            <div className="text-xs text-muted-foreground mt-2">Direction prediction accuracy</div>
+                          </div>
+                          
+                          {/* Overall Confidence Level */}
+                          <div className="space-y-2">
+                            <div className="text-xs font-medium text-muted-foreground">Model Agreement</div>
                             <div className="space-y-1">
-                              <div className="flex items-center justify-between text-xs">
+                              <div className="flex items-center justify-between text-xs p-2 bg-gradient-to-r from-card to-dashboard-info/5 rounded">
                                 <span>Engagement Models</span>
-                                <span className={predictiveModelingData.confidence.modelAgreement.engagement ? 'text-dashboard-success' : 'text-dashboard-warning'}>
+                                <span className={predictiveModelingData.confidence.modelAgreement.engagement ? 'text-dashboard-success font-bold' : 'text-dashboard-warning'}>
                                   {predictiveModelingData.confidence.modelAgreement.engagement ? 'Agree' : 'Disagree'}
                                 </span>
                               </div>
-                              <div className="flex items-center justify-between text-xs">
+                              <div className="flex items-center justify-between text-xs p-2 bg-gradient-to-r from-card to-dashboard-info/5 rounded">
                                 <span>Views Models</span>
-                                <span className={predictiveModelingData.confidence.modelAgreement.views ? 'text-dashboard-success' : 'text-dashboard-warning'}>
+                                <span className={predictiveModelingData.confidence.modelAgreement.views ? 'text-dashboard-success font-bold' : 'text-dashboard-warning'}>
                                   {predictiveModelingData.confidence.modelAgreement.views ? 'Agree' : 'Disagree'}
                                 </span>
                               </div>
@@ -1284,41 +1311,6 @@ export const PostPerformance = ({ posts, influencerId }: PostPerformanceProps) =
                       </CardContent>
                     </Card>
                   </div>
-
-                  {/* Growth Insights */}
-                  <Card className="border border-border/50">
-                    <CardHeader>
-                      <CardTitle className="text-sm">Growth Insights</CardTitle>
-                    </CardHeader>
-                    <CardContent>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div className="p-4 bg-gradient-to-r from-card to-dashboard-info/5 rounded-lg">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Eye className="h-4 w-4 text-dashboard-info" />
-                            <span className="text-sm font-medium">Views Trajectory</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">
-                            {predictiveModelingData.predictions.viewsGrowth > 50 ? 'Exceptional growth expected' :
-                             predictiveModelingData.predictions.viewsGrowth > 20 ? 'Strong growth trajectory' :
-                             predictiveModelingData.predictions.viewsGrowth > 0 ? 'Steady growth projected' :
-                             'Stable performance expected'}
-                          </p>
-                        </div>
-                        <div className="p-4 bg-gradient-to-r from-card to-dashboard-success/5 rounded-lg">
-                          <div className="flex items-center space-x-2 mb-2">
-                            <Heart className="h-4 w-4 text-dashboard-success" />
-                            <span className="text-sm font-medium">Engagement Outlook</span>
-                          </div>
-                          <p className="text-xs text-muted-foreground">
-                            {predictiveModelingData.predictions.engagementGrowth > 10 ? 'Highly engaging content trend' :
-                             predictiveModelingData.predictions.engagementGrowth > 5 ? 'Improving audience connection' :
-                             predictiveModelingData.predictions.engagementGrowth > 0 ? 'Maintaining engagement levels' :
-                             'Focus on engagement strategies'}
-                          </p>
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
                 </AccordionContent>
               </AccordionItem>
             )}

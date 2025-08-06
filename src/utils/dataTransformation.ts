@@ -454,20 +454,28 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     if (prediction) {
       const currentER = parseFloat(prediction.current_engagement_rate) * 100;
       const predictedER = ((parseFloat(prediction.er_lgbm_prediction) + parseFloat(prediction.er_rf_prediction)) / 2) * 100;
+      const currentViews = parseFloat(prediction.current_views);
       const predictedViews = (parseFloat(prediction.views_lgbm_prediction) + parseFloat(prediction.views_rf_prediction)) / 2;
       
-      // Calculate engagement rate change (absolute difference for ranking)
+      // Calculate engagement rate change (actual change for ranking)
       const erChange = predictedER - currentER;
       const erChangePercent = currentER > 0 ? (erChange / currentER) * 100 : 0;
+      
+      // Calculate views change (actual change for ranking)
+      const viewsChange = predictedViews - currentViews;
+      const viewsChangePercent = currentViews > 0 ? (viewsChange / currentViews) * 100 : 0;
       
       return {
         ...influencer,
         engagementRate: currentER,
+        avgViews: currentViews,
         predictedEngagementRate: predictedER,
         predictedViews: predictedViews,
         engagementGrowthPotential: erChangePercent,
+        viewsGrowthPotential: viewsChangePercent,
         erLgbmPrediction: parseFloat(prediction.er_lgbm_prediction) * 100, // Convert to percentage
-        erChangeAbsolute: Math.abs(erChange), // For ranking purposes
+        erChangeAbsolute: erChange, // Actual change value for proper ranking
+        viewsChangeAbsolute: viewsChange, // Actual change value for proper ranking
         rankType: erChange >= 0 ? 'trending-up' : 'trending-down' as 'trending-up' | 'trending-down'
       };
     }
@@ -475,6 +483,7 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
     return {
       ...influencer,
       erChangeAbsolute: 0, // No prediction data, no change
+      viewsChangeAbsolute: 0, // No prediction data, no change
       rankType: 'trending-up' as 'trending-up' | 'trending-down'
     };
   });
@@ -499,8 +508,9 @@ export const transformDataToInfluencers = (): InfluencerData[] => {
       // For trending-up: highest positive change first
       return changeB - changeA;
     } else if (typeA === 'trending-down' && typeB === 'trending-down') {
-      // For trending-down: least negative change first (smallest absolute change)
-      return changeA - changeB;
+      // For trending-down: least negative change first (closest to zero first)
+      // Since both are negative, higher value (closer to zero) should come first
+      return changeB - changeA;
     }
     
     // Fallback (should not reach here given the logic above)

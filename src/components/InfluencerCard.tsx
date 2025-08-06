@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { TrendingUp, TrendingDown, Users, MapPin, Instagram, Zap } from 'lucide-react';
+import { TrendingUp, TrendingDown, Users, MapPin, Instagram, Zap, Eye, Target } from 'lucide-react';
 import { InfluencerData } from './InfluencerDashboard';
 
 interface InfluencerCardProps {
@@ -81,28 +81,91 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
               </div>
             </div>
 
-            {/* Stats Grid */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 text-sm">
-              <div className="text-center">
-                <div className="font-semibold text-foreground">{formatFollowerCount(influencer.followerCount)}</div>
-                <div className="text-muted-foreground text-xs">Followers</div>
-              </div>
-              <div className="text-center">
-                <div className="font-semibold text-dashboard-primary">{influencer.engagementRate?.toFixed(1)}%</div>
-                <div className="text-muted-foreground text-xs">Engagement</div>
-              </div>
-              <div className="text-center">
-                <div className="font-semibold text-dashboard-success">${influencer.rate.toLocaleString()}</div>
-                <div className="text-muted-foreground text-xs">Rate</div>
-              </div>
-              {influencer.erLgbmPrediction !== undefined && (
+            {/* Stats Grid - Organized layout */}
+            <div className="space-y-3">
+              {/* Top row */}
+              <div className="grid grid-cols-4 gap-4 text-sm">
+                {/* Column 1: Followers */}
                 <div className="text-center">
-                  <div className="font-semibold text-dashboard-warning">
-                    {influencer.erLgbmPrediction.toFixed(1)}%
-                  </div>
-                  <div className="text-muted-foreground text-xs">Predicted ER</div>
+                  <div className="font-semibold text-foreground">{formatFollowerCount(influencer.followerCount)}</div>
+                  <div className="text-muted-foreground text-xs">Followers</div>
                 </div>
-              )}
+                {/* Column 2: Current ER */}
+                <div className="text-center">
+                  <div className="font-semibold text-black">{influencer.engagementRate?.toFixed(1)}%</div>
+                  <div className="text-muted-foreground text-xs">Current ER</div>
+                </div>
+                {/* Column 3: Predicted ER */}
+                {influencer.erLgbmPrediction !== undefined && (
+                  <div className="text-center">
+                    <div className="font-semibold text-black">
+                      {influencer.erLgbmPrediction.toFixed(1)}%
+                    </div>
+                    <div className="text-muted-foreground text-xs">Predicted ER</div>
+                  </div>
+                )}
+                {/* Column 4: ER Change */}
+                {influencer.erChangeAbsolute !== undefined && influencer.predictedEngagementRate !== undefined && (
+                  <div className="text-center">
+                    <div className={`font-semibold flex items-center justify-center gap-1 ${
+                      influencer.erChangeAbsolute >= 0 ? 'text-dashboard-success' : 'text-dashboard-destructive'
+                    }`}>
+                      {influencer.erChangeAbsolute >= 0 ? 
+                        <TrendingUp className="h-3 w-3" /> : 
+                        <TrendingDown className="h-3 w-3" />
+                      }
+                      {influencer.erChangeAbsolute >= 0 ? '+' : ''}{Math.abs(influencer.erChangeAbsolute).toFixed(1)}%
+                    </div>
+                    <div className="text-muted-foreground text-xs">ER Change</div>
+                  </div>
+                )}
+              </div>
+              
+              {/* Bottom row */}
+              <div className="grid grid-cols-4 gap-4 text-sm">
+                {/* Column 1: Rate */}
+                <div className="text-center">
+                  <div className="font-semibold text-dashboard-success">${influencer.rate.toLocaleString()}</div>
+                  <div className="text-muted-foreground text-xs">Rate</div>
+                </div>
+                {/* Column 2: Current Views */}
+                <div className="text-center">
+                  <div className="font-semibold text-black">
+                    {influencer.avgViews ? formatFollowerCount(influencer.avgViews) : '0'}
+                  </div>
+                  <div className="text-muted-foreground text-xs">Current Views</div>
+                </div>
+                {/* Column 3: Predicted Views */}
+                {influencer.predictedViews !== undefined && (
+                  <div className="text-center">
+                    <div className="font-semibold text-dashboard-accent">
+                      {formatFollowerCount(influencer.predictedViews)}
+                    </div>
+                    <div className="text-muted-foreground text-xs">Predicted Views</div>
+                  </div>
+                )}
+                {/* Column 4: Views Change */}
+                {influencer.viewsChangeAbsolute !== undefined && influencer.predictedViews !== undefined && (
+                  <div className="text-center">
+                    <div className={`font-semibold flex items-center justify-center gap-1 ${
+                      influencer.viewsChangeAbsolute >= 0 ? 'text-dashboard-success' : 'text-dashboard-destructive'
+                    }`}>
+                      {influencer.viewsChangeAbsolute >= 0 ? 
+                        <TrendingUp className="h-3 w-3" /> : 
+                        <TrendingDown className="h-3 w-3" />
+                      }
+                      {influencer.viewsChangeAbsolute >= 0 ? '+' : ''}
+                      {Math.abs(influencer.viewsChangeAbsolute) >= 1000000 ? 
+                        `${(Math.abs(influencer.viewsChangeAbsolute) / 1000000).toFixed(1)}M` :
+                        Math.abs(influencer.viewsChangeAbsolute) >= 1000 ? 
+                        `${(Math.abs(influencer.viewsChangeAbsolute) / 1000).toFixed(0)}K` :
+                        Math.abs(influencer.viewsChangeAbsolute).toFixed(0)
+                      }
+                    </div>
+                    <div className="text-muted-foreground text-xs">Views Change</div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

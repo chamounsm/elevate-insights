@@ -30,8 +30,8 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
       tierFilter: 'all',
       partnerTypeFilter: 'all',
       platformFilter: 'all',
-      sortBy: 'rank',
-      sortOrder: 'asc'
+      sortBy: 'erChangeAbsolute',
+      sortOrder: 'desc'
     });
   };
 
@@ -115,7 +115,7 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
           variant="outline"
           size="sm"
           onClick={() => toggleSort('followerCount')}
-          className={filterSort.sortBy === 'followerCount' ? 'bg-primary/10' : ''}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'followerCount' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
         >
           Followers {getSortIcon('followerCount')}
         </Button>
@@ -124,7 +124,7 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
           variant="outline"
           size="sm"
           onClick={() => toggleSort('engagementRate')}
-          className={filterSort.sortBy === 'engagementRate' ? 'bg-primary/10' : ''}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'engagementRate' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
         >
           Engagement {getSortIcon('engagementRate')}
         </Button>
@@ -132,28 +132,37 @@ export const InfluencerListControls = ({ title, filterSort, onFilterSortChange }
         <Button
           variant="outline"
           size="sm"
-          onClick={() => toggleSort('totalRevenue')}
-          className={filterSort.sortBy === 'totalRevenue' ? 'bg-primary/10' : ''}
+          onClick={() => toggleSort('erChangeAbsolute')}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'erChangeAbsolute' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
         >
-          Revenue {getSortIcon('totalRevenue')}
+          ER Change {getSortIcon('erChangeAbsolute')}
         </Button>
         
         <Button
           variant="outline"
           size="sm"
-          onClick={() => toggleSort('roas')}
-          className={filterSort.sortBy === 'roas' ? 'bg-primary/10' : ''}
+          onClick={() => toggleSort('viewsChangeAbsolute')}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'viewsChangeAbsolute' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
         >
-          ROAS {getSortIcon('roas')}
+          Views Change {getSortIcon('viewsChangeAbsolute')}
         </Button>
         
         <Button
           variant="outline"
           size="sm"
           onClick={() => toggleSort('erLgbmPrediction')}
-          className={filterSort.sortBy === 'erLgbmPrediction' ? 'bg-primary/10' : ''}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'erLgbmPrediction' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
         >
           Predicted ER {getSortIcon('erLgbmPrediction')}
+        </Button>
+        
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={() => toggleSort('predictedViews')}
+          className={`hover:bg-dashboard-primary/20 ${filterSort.sortBy === 'predictedViews' ? 'bg-dashboard-primary/20 border-dashboard-primary' : ''}`}
+        >
+          Predicted Views {getSortIcon('predictedViews')}
         </Button>
       </div>
     </div>

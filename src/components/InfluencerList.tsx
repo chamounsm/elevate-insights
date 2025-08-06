@@ -55,6 +55,18 @@ export const InfluencerList = ({ influencers, filterSort, onInfluencerClick }: I
           aValue = a.erLgbmPrediction || 0;
           bValue = b.erLgbmPrediction || 0;
           break;
+        case 'erChangeAbsolute':
+          aValue = a.erChangeAbsolute || 0;
+          bValue = b.erChangeAbsolute || 0;
+          break;
+        case 'viewsChangeAbsolute':
+          aValue = a.viewsChangeAbsolute || 0;
+          bValue = b.viewsChangeAbsolute || 0;
+          break;
+        case 'predictedViews':
+          aValue = a.predictedViews || 0;
+          bValue = b.predictedViews || 0;
+          break;
         default:
           aValue = a.rank || 0;
           bValue = b.rank || 0;

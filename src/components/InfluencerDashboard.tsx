@@ -70,6 +70,7 @@ export interface InfluencerData {
   growthPercentile?: number;
   erLgbmPrediction?: number;
   erChangeAbsolute?: number;
+  viewsChangeAbsolute?: number;
 }
 
 // Real data is now loaded from JSON files via getRealInfluencerData()
@@ -83,8 +84,8 @@ export const InfluencerDashboard = () => {
     tierFilter: 'all',
     partnerTypeFilter: 'all',
     platformFilter: 'all',
-    sortBy: 'rank',
-    sortOrder: 'asc'
+    sortBy: 'erChangeAbsolute',
+    sortOrder: 'desc'
   });
 
   const [rightListFilter, setRightListFilter] = useState<FilterSortState>({
@@ -92,7 +93,7 @@ export const InfluencerDashboard = () => {
     tierFilter: 'all',
     partnerTypeFilter: 'all',
     platformFilter: 'all',
-    sortBy: 'erLgbmPrediction',
+    sortBy: 'erChangeAbsolute',
     sortOrder: 'desc'
   });
 

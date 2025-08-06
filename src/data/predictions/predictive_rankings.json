@@ -12,7 +12,11 @@
     "views_rf_prediction": "127275.5199998576",
     "views_direction_agreement": "False",
     "views_lgbm_percentile": "0-25th Percentile",
-    "views_rf_percentile": "0-25th Percentile"
+    "views_rf_percentile": "0-25th Percentile",
+    "er_lgbm_direction_accuracy": "80.00",
+    "er_rf_direction_accuracy": "63.22",
+    "views_lgbm_direction_accuracy": "46.02",
+    "views_rf_direction_accuracy": "52.59"
   },
   {
     "influencer": "cactustherescue",
@@ -27,7 +31,11 @@
     "views_rf_prediction": "523287.36524028564",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "75-90th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "88.89",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "88.70",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "catnamedsquirrel",
@@ -42,7 +50,11 @@
     "views_rf_prediction": "261156.2335024801",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "clementinethedox",
@@ -57,7 +69,11 @@
     "views_rf_prediction": "194894.86875675208",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "93.23",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "dash_and_furrious",
@@ -72,7 +88,11 @@
     "views_rf_prediction": "214937.71375118147",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "dr.mattmcglasson",
@@ -87,7 +107,11 @@
     "views_rf_prediction": "269496.5212047275",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "93.23",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "girlandadoodle",
@@ -102,7 +126,11 @@
     "views_rf_prediction": "3967246.7283966797",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "75-90th Percentile",
-    "views_rf_percentile": "75-90th Percentile"
+    "views_rf_percentile": "75-90th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "63.22",
+    "views_lgbm_direction_accuracy": "88.70",
+    "views_rf_direction_accuracy": "87.58"
   },
   {
     "influencer": "goldenchilidog",
@@ -117,7 +145,11 @@
     "views_rf_prediction": "183550.44978439633",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "93.23",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "its.laurabrown",
@@ -132,7 +164,11 @@
     "views_rf_prediction": "248250.5187442959",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "itsdougthepug",
@@ -147,7 +183,11 @@
     "views_rf_prediction": "309596.0150888876",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "88.89",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "levithehuskyrescue",
@@ -162,7 +202,11 @@
     "views_rf_prediction": "270160.17349178833",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "0-25th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "46.02",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "mervthepet",
@@ -177,7 +221,11 @@
     "views_rf_prediction": "3047988.8055538307",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "90-100th Percentile",
-    "views_rf_percentile": "75-90th Percentile"
+    "views_rf_percentile": "75-90th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "63.22",
+    "views_lgbm_direction_accuracy": "88.70",
+    "views_rf_direction_accuracy": "87.58"
   },
   {
     "influencer": "nycyorkiegirls",
@@ -192,7 +240,11 @@
     "views_rf_prediction": "70650.76622104655",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "0-25th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "46.02",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "oakleydoodlegram",
@@ -207,7 +259,11 @@
     "views_rf_prediction": "116901.27139879923",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "80.00",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "papathepoodle",
@@ -222,7 +278,11 @@
     "views_rf_prediction": "142230.0731415941",
     "views_direction_agreement": "False",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "0-25th Percentile"
+    "views_rf_percentile": "0-25th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "63.22",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "52.59"
   },
   {
     "influencer": "paquito_thecat",
@@ -237,7 +297,11 @@
     "views_rf_prediction": "93011.05678111689",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "puggpickles",
@@ -252,7 +316,11 @@
     "views_rf_prediction": "62539.20889162245",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "88.89",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "roamwildwithus",
@@ -267,7 +335,11 @@
     "views_rf_prediction": "147788.73542245734",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "0-25th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "88.89",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "46.02",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "rubylouthecorgi",
@@ -282,7 +354,11 @@
     "views_rf_prediction": "57396.34524954459",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "sapphie_the_pomsky",
@@ -297,7 +373,11 @@
     "views_rf_prediction": "554064.605114517",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "75-90th Percentile"
+    "views_rf_percentile": "75-90th Percentile",
+    "er_lgbm_direction_accuracy": "80.00",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "87.58"
   },
   {
     "influencer": "shelby_salmela",
@@ -312,7 +392,11 @@
     "views_rf_prediction": "121888.64695682083",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "80.00",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "sl4ught3r",
@@ -327,7 +411,11 @@
     "views_rf_prediction": "2969824.478903281",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "90-100th Percentile",
-    "views_rf_percentile": "50-75th Percentile"
+    "views_rf_percentile": "50-75th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "88.70",
+    "views_rf_direction_accuracy": "85.79"
   },
   {
     "influencer": "touriholmes",
@@ -342,7 +430,11 @@
     "views_rf_prediction": "1133608.160906978",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "50-75th Percentile",
-    "views_rf_percentile": "75-90th Percentile"
+    "views_rf_percentile": "75-90th Percentile",
+    "er_lgbm_direction_accuracy": "64.71",
+    "er_rf_direction_accuracy": "83.67",
+    "views_lgbm_direction_accuracy": "82.46",
+    "views_rf_direction_accuracy": "87.58"
   },
   {
     "influencer": "trufflecosta",
@@ -357,7 +449,11 @@
     "views_rf_prediction": "80440.09520975426",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "92.98",
+    "er_rf_direction_accuracy": "93.23",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   },
   {
     "influencer": "wickens.wicked.reptiles",
@@ -372,6 +468,10 @@
     "views_rf_prediction": "113169.43294669088",
     "views_direction_agreement": "True",
     "views_lgbm_percentile": "25-50th Percentile",
-    "views_rf_percentile": "25-50th Percentile"
+    "views_rf_percentile": "25-50th Percentile",
+    "er_lgbm_direction_accuracy": "88.89",
+    "er_rf_direction_accuracy": "89.86",
+    "views_lgbm_direction_accuracy": "61.25",
+    "views_rf_direction_accuracy": "69.97"
   }
 ]

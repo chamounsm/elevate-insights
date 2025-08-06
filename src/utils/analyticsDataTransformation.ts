@@ -1307,6 +1307,10 @@ export interface PredictiveModelingData {
     percentile: number;
     category: string;
   };
+  directionAccuracy: {
+    engagementRate: number;
+    views: number;
+  };
 }
 
 export const calculatePredictiveModelingData = (influencerId?: string): PredictiveModelingData | null => {
@@ -1384,6 +1388,10 @@ export const calculatePredictiveModelingData = (influencerId?: string): Predicti
                         avgPercentile >= 50 ? 'Moderate Growth Potential' :
                         avgPercentile >= 25 ? 'Steady Growth' : 'Stable Performance';
   
+  // Extract direction accuracy values
+  const erRfAccuracy = parseFloat(prediction.er_rf_direction_accuracy || '0');
+  const viewsRfAccuracy = parseFloat(prediction.views_rf_direction_accuracy || '0');
+  
   return {
     currentMetrics: {
       engagementRate: currentER,
@@ -1402,6 +1410,10 @@ export const calculatePredictiveModelingData = (influencerId?: string): Predicti
     growthPotential: {
       percentile: avgPercentile,
       category: growthCategory
+    },
+    directionAccuracy: {
+      engagementRate: erRfAccuracy,
+      views: viewsRfAccuracy
     }
   };
 };
