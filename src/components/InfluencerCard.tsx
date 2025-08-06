@@ -45,8 +45,8 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
       className="cursor-pointer transition-all duration-300 hover:shadow-md hover:scale-[1.02] border border-border/50 bg-gradient-to-r from-card to-card/50"
       onClick={onClick}
     >
-      <CardContent className="p-6">
-        <div className="space-y-4">
+      <CardContent className="px-8 py-6">
+        <div className="max-w-5xl mx-auto space-y-4">
           {/* Header Row */}
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -68,7 +68,7 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
 
           {/* Influencer Details */}
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3">
-            <div className="space-y-1">
+            <div className="space-y-2">
               <div className="text-sm font-medium text-foreground">
                 {influencer.petParentName}
               </div>
@@ -78,6 +78,18 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
                   <MapPin className="h-3 w-3" />
                   <span>{influencer.city}, {influencer.state}</span>
                 </div>
+              </div>
+              {/* Additional badges moved here */}
+              <div className="flex items-center space-x-2 pt-1">
+                <Badge variant="secondary" className="text-xs">
+                  {influencer.tier}
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  {influencer.partnerType}
+                </Badge>
+                <Badge variant="outline" className="text-xs">
+                  {influencer.category}
+                </Badge>
               </div>
             </div>
 
@@ -168,19 +180,6 @@ export const InfluencerCard = ({ influencer, onClick }: InfluencerCardProps) => 
               </div>
             </div>
           </div>
-        </div>
-
-        {/* Additional badges */}
-        <div className="flex items-center space-x-2 mt-4">
-          <Badge variant="secondary" className="text-xs">
-            {influencer.tier}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {influencer.partnerType}
-          </Badge>
-          <Badge variant="outline" className="text-xs">
-            {influencer.category}
-          </Badge>
         </div>
       </CardContent>
     </Card>

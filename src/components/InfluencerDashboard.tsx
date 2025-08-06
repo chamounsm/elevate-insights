@@ -79,16 +79,7 @@ export const InfluencerDashboard = () => {
   const [selectedInfluencer, setSelectedInfluencer] = useState<InfluencerData | null>(null);
   const [activeTab, setActiveTab] = useState('dashboard');
   
-  const [leftListFilter, setLeftListFilter] = useState<FilterSortState>({
-    searchTerm: '',
-    tierFilter: 'all',
-    partnerTypeFilter: 'all',
-    platformFilter: 'all',
-    sortBy: 'erChangeAbsolute',
-    sortOrder: 'desc'
-  });
-
-  const [rightListFilter, setRightListFilter] = useState<FilterSortState>({
+  const [listFilter, setListFilter] = useState<FilterSortState>({
     searchTerm: '',
     tierFilter: 'all',
     partnerTypeFilter: 'all',
@@ -180,39 +171,20 @@ export const InfluencerDashboard = () => {
               </Card>
             </div>
 
-            {/* Dual Influencer Lists */}
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Left List */}
+            {/* Single Influencer List */}
+            <div className="max-w-5xl mx-auto">
               <Card className="border-0 shadow-sm">
                 <CardHeader>
                   <InfluencerListControls
-                    title="Influencer List A"
-                    filterSort={leftListFilter}
-                    onFilterSortChange={setLeftListFilter}
+                    title="Influencer List"
+                    filterSort={listFilter}
+                    onFilterSortChange={setListFilter}
                   />
                 </CardHeader>
                 <CardContent>
                   <InfluencerList
                     influencers={realInfluencerData}
-                    filterSort={leftListFilter}
-                    onInfluencerClick={setSelectedInfluencer}
-                  />
-                </CardContent>
-              </Card>
-
-              {/* Right List */}
-              <Card className="border-0 shadow-sm">
-                <CardHeader>
-                  <InfluencerListControls
-                    title="Influencer List B"
-                    filterSort={rightListFilter}
-                    onFilterSortChange={setRightListFilter}
-                  />
-                </CardHeader>
-                <CardContent>
-                  <InfluencerList
-                    influencers={realInfluencerData}
-                    filterSort={rightListFilter}
+                    filterSort={listFilter}
                     onInfluencerClick={setSelectedInfluencer}
                   />
                 </CardContent>
