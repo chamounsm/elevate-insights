@@ -1,5 +1,5 @@
 
-# Elevate Insights - Influencer Analytics Dashboard
+# Influencer Analytics Dashboard
 
 A comprehensive React-based dashboard for analyzing influencer marketing campaigns with advanced predictive analytics, performance tracking, and AI-powered insights.
 
